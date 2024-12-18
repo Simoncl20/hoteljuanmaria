@@ -1,11 +1,8 @@
 import styles from "./home.module.css";
-import Navbar from "./components/navbar/navbar";
-import Footer from './components/footer/footer';
 
 export default function Home() {
   return (
     <>
-      <Navbar />
       <div className={styles.container}>
         {/* Hero */}
         <div className={styles.heroSection}>
@@ -44,9 +41,6 @@ export default function Home() {
           <button className={styles.checkButton}>Ver Disponibilidad</button>
         </div>
       </div>
-      
-      {/* Footer fuera del contenedor */}
-      <Footer />
     </>
   );
 }
