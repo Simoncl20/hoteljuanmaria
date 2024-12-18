@@ -2,7 +2,7 @@
 .container {
     background: url("https://cf.bstatic.com/xdata/images/hotel/max1024x768/238142048.jpg?k=415c99445e850ef04794b0ab0668bde4c8b021c0ac9f828cf1f0263cbc2df67d&o=&hp=1")
       no-repeat center center/cover;
-    height: 100vh;
+    min-height: 100vh;
     display: flex;
     flex-direction: column;
     justify-content: center;
