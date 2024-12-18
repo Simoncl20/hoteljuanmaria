@@ -1,8 +1,10 @@
-import styles from "./Home.module.css";
+import styles from "./home.module.css";
+import Navbar from "./components/navbar/navbar";
 
 export default function Home() {
   return (
     <div className={styles.container}>
+      <Navbar/>
       {/* Hero */}
       <div className={styles.heroSection}>
         <h1 className={styles.title}>Bienvenido al Hotel Juan María</h1>

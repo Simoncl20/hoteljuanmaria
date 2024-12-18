@@ -9,6 +9,7 @@
     align-items: center;
     font-family: "Inter", sans-serif;
     color: #fff;
+    margin-top: 5rem; /* espacio pa que el contenido no quede bajo el navbar */      
   }
   
 /* hero */
@@ -21,7 +22,7 @@
     font-size: 3.5rem;
     font-weight: bold;
     margin: 0;
-    font-family: "Georgia", serif; /* Fuente serif */
+    font-family: "Georgia", serif; 
   }
   
   .subtitle {
