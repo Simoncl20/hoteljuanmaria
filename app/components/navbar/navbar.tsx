@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Link from "next/link";
 import styles from "./Navbar.module.css";
 import icon from "./GrayIcon.svg";
 
@@ -7,17 +8,17 @@ export default function Navbar() {
     <nav className={styles.navbar}>
       {/* Logo a la izquierda */}
       <div className={styles.logo}>
-        <a href="#">
+        <Link href="#">
           <Image src={icon} alt="Home" width={64} height={64} />
-        </a>
+        </Link>
       </div>
 
       {/* Secciones centradas */}
       <ul className={styles.navList}>
-        <li><a href="#">Sobre Nosotros</a></li>
-        <li><a href="#">Habitaciones</a></li>
-        <li><a href="#">Página</a></li>
-        <li><a href="#">Reservas</a></li>
+        <li><Link href="#">Sobre Nosotros</Link></li>
+        <li><Link href="#">Habitaciones</Link></li>
+        <li><Link href="#">Página</Link></li>
+        <li><Link href="#">Reservas</Link></li>
       </ul>
 
       {/* Botón Contacto a la derecha */}
