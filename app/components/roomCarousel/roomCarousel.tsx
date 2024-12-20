@@ -4,8 +4,17 @@ import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
 
-// Datos del carrusel
-const slides = [
+// Definimos el tipo de los datos de las diapositivas
+interface Slide {
+  id: number;
+  title: string;
+  description: string;
+  imageUrl: string;
+  linkRates: string;
+  linkDetails: string;
+}
+
+const slides: Slide[] = [
   {
     id: 1,
     title: "Habitación Grand Premier",
@@ -67,18 +76,11 @@ const slides = [
 ];
 
 const RoomCarousel = () => {
-  const [currentIndex, setCurrentIndex] = useState(0);
+  const [currentIndex, setCurrentIndex] = useState<number>(2); // Índice inicial centrado
 
-  const nextSlide = () => {
-    setCurrentIndex((prevIndex) =>
-      prevIndex === slides.length - 1 ? 0 : prevIndex + 1
-    );
-  };
-
-  const prevSlide = () => {
-    setCurrentIndex((prevIndex) =>
-      prevIndex === 0 ? slides.length - 1 : prevIndex - 1
-    );
+  // Mover una tarjeta al centro al hacer clic
+  const handleCardClick = (index: number) => {
+    setCurrentIndex(index);
   };
 
   return (
@@ -87,36 +89,50 @@ const RoomCarousel = () => {
         Alojamiento
       </h1>
 
-      <div className="relative">
-        {/* Contenedor del carrusel */}
-        <div className="overflow-hidden">
-          <div
-            className="flex transition-transform duration-500 ease-in-out"
-            style={{
-              transform: `translateX(-${currentIndex * 100}%)`,
-            }}
-          >
-            {slides.map((slide) => (
+      {/* Contenedor del carrusel */}
+      <div className="relative overflow-hidden">
+        <div
+          className="flex justify-center items-center gap-4 transition-transform duration-500 ease-in-out"
+          style={{
+            transform: `translateX(-${
+              (currentIndex - 2) * 340
+            }px)`, // Mueve el carrusel para centrar
+          }}
+        >
+          {slides.map((slide, index) => {
+            const isCenter = index === currentIndex;
+
+            return (
               <div
-                key={slide.id}
-                className="flex-shrink-0 w-full p-4 flex justify-center"
+                key={index}
+                onClick={() => handleCardClick(index)}
+                className={`flex-shrink-0 transition-transform duration-500 cursor-pointer ${
+                  isCenter
+                    ? "scale-105 z-10 opacity-100"
+                    : "scale-90 opacity-70"
+                }`}
+                style={{
+                  width: "300px",
+                  marginLeft: isCenter ? "0" : "5px",
+                  marginRight: isCenter ? "0" : "5px",
+                }}
               >
-                <div className="max-w-sm bg-white shadow-lg border border-gray-200 rounded-lg overflow-hidden">
+                <div className="border border-gray-300 rounded-lg shadow-lg bg-white overflow-hidden">
                   <Image
                     src={slide.imageUrl}
                     alt={slide.title}
-                    width={400}
-                    height={300}
+                    width={300}
+                    height={200}
                     className="object-cover w-full h-48"
                   />
-                  <div className="p-6">
-                    <h2 className="text-lg font-bold mb-2 text-gray-800">
+                  <div className="p-4">
+                    <h2 className="text-lg font-bold text-gray-800">
                       {slide.title}
                     </h2>
-                    <p className="text-sm text-gray-600 mb-4">
+                    <p className="text-sm text-gray-600 my-2">
                       {slide.description}
                     </p>
-                    <div className="flex justify-between">
+                    <div className="flex gap-2 mt-4">
                       <Link href={slide.linkRates} legacyBehavior>
                         <a className="text-sm font-bold text-white bg-black px-4 py-2 rounded hover:bg-gray-800 transition">
                           Verificar tarifas
@@ -131,36 +147,9 @@ const RoomCarousel = () => {
                   </div>
                 </div>
               </div>
-            ))}
-          </div>
+            );
+          })}
         </div>
-
-        {/* Botones de navegación */}
-        <button
-          onClick={prevSlide}
-          className="absolute left-4 top-1/2 transform -translate-y-1/2 bg-white text-black p-2 rounded-full shadow-lg hover:bg-gray-100 transition"
-        >
-          &#8592;
-        </button>
-        <button
-          onClick={nextSlide}
-          className="absolute right-4 top-1/2 transform -translate-y-1/2 bg-white text-black p-2 rounded-full shadow-lg hover:bg-gray-100 transition"
-        >
-          &#8594;
-        </button>
-      </div>
-
-      {/* Indicadores */}
-      <div className="flex justify-center mt-4 space-x-2">
-        {slides.map((_, index) => (
-          <button
-            key={index}
-            onClick={() => setCurrentIndex(index)}
-            className={`w-3 h-3 rounded-full ${
-              index === currentIndex ? "bg-black" : "bg-gray-300"
-            }`}
-          ></button>
-        ))}
       </div>
     </div>
   );
