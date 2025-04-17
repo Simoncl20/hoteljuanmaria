@@ -10,23 +10,22 @@ const Hero = () => {
 
   return (
     <div 
-      className="relative"
+      className="relative flex items-center justify-center" // Añadido flex y centrado
       style={{ 
-        // Let's try multiple approaches to load the background image:
         backgroundImage: `url('/HotelBackground.jpeg')`,
         backgroundSize: 'cover',
         backgroundPosition: 'center',
-        minHeight: "calc(100vh - 80px)",
-        marginTop: "80px" // Add top margin for navbar height
+        height: "calc(100vh - 80px)", // Cambiado de minHeight a height para centrado exacto
+        marginTop: "80px" // Espacio para la navbar
       }}
     >
-      {/* Overlay with darker opacity */}
+      {/* Overlay con opacidad */}
       <div 
         className="absolute inset-0 bg-black opacity-50"
       ></div>
       
       {/* Contenido centrado */}
-      <div className="relative z-10 flex flex-col items-center justify-center h-full text-white px-4 py-16">
+      <div className="relative z-10 w-full max-w-6xl mx-auto text-white px-4">
         {/* Hero text */}
         <div className="text-center mb-12">
           <h1 className="text-5xl font-bold mb-2 font-serif">
@@ -38,7 +37,7 @@ const Hero = () => {
         </div>
 
         {/* Formulario */}
-        <div className="w-full max-w-4xl bg-black/80 rounded-md">
+        <div className="w-full max-w-4xl mx-auto bg-black/80 rounded-md">
           <div className="p-8">
             <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
               <div className="flex flex-col">
