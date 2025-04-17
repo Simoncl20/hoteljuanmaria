@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 // Definimos el tipo de los datos de las diapositivas
 interface Slide {
@@ -77,11 +77,54 @@ const slides: Slide[] = [
 
 const RoomCarousel = () => {
   const [currentIndex, setCurrentIndex] = useState<number>(2); // Índice inicial centrado
+  const cardWidth = 340; // Ancho de cada tarjeta incluyendo márgenes
+  const centerPosition = 2; // Posición central en el carrusel (0-indexed)
 
   // Mover una tarjeta al centro al hacer clic
   const handleCardClick = (index: number) => {
     setCurrentIndex(index);
   };
+
+  // Función para mover a la izquierda con scroll infinito
+  const handlePrevClick = () => {
+    // Si estamos en la primera slide, vamos a la última
+    if (currentIndex <= 0) {
+      setCurrentIndex(slides.length - 1);
+    } else {
+      setCurrentIndex(currentIndex - 1);
+    }
+  };
+
+  // Función para mover a la derecha con scroll infinito
+  const handleNextClick = () => {
+    // Si estamos en la última slide, volvemos a la primera
+    if (currentIndex >= slides.length - 1) {
+      setCurrentIndex(0);
+    } else {
+      setCurrentIndex(currentIndex + 1);
+    }
+  };
+
+  // Calcular la transformación para centrar la tarjeta actual
+  const calculateTransform = () => {
+    return -(currentIndex - centerPosition) * cardWidth;
+  };
+
+  // Añadir control de teclado para navegación (opcional)
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "ArrowLeft") {
+        handlePrevClick();
+      } else if (e.key === "ArrowRight") {
+        handleNextClick();
+      }
+    };
+
+    window.addEventListener("keydown", handleKeyDown);
+    return () => {
+      window.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [currentIndex]);
 
   return (
     <div className="max-w-screen-xl mx-auto p-4">
@@ -91,12 +134,32 @@ const RoomCarousel = () => {
 
       {/* Contenedor del carrusel */}
       <div className="relative overflow-hidden">
+        {/* Botón Izquierda */}
+        <button
+          onClick={handlePrevClick}
+          className="absolute left-0 top-1/2 -translate-y-1/2 z-20 bg-white bg-opacity-70 p-2 rounded-full shadow-md hover:bg-opacity-100 transition-all"
+          aria-label="Anterior habitación"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          >
+            <polyline points="15 18 9 12 15 6"></polyline>
+          </svg>
+        </button>
+
+        {/* Carrusel */}
         <div
           className="flex justify-center items-center gap-4 transition-transform duration-500 ease-in-out"
           style={{
-            transform: `translateX(-${
-              (currentIndex - 2) * 340
-            }px)`, // Mueve el carrusel para centrar
+            transform: `translateX(${calculateTransform()}px)`,
           }}
         >
           {slides.map((slide, index) => {
@@ -106,25 +169,26 @@ const RoomCarousel = () => {
               <div
                 key={index}
                 onClick={() => handleCardClick(index)}
-                className={`flex-shrink-0 transition-transform duration-500 cursor-pointer ${
+                className={`flex-shrink-0 transition-all duration-500 cursor-pointer ${
                   isCenter
                     ? "scale-105 z-10 opacity-100"
                     : "scale-90 opacity-70"
                 }`}
                 style={{
                   width: "300px",
-                  marginLeft: isCenter ? "0" : "5px",
-                  marginRight: isCenter ? "0" : "5px",
+                  marginLeft: "5px",
+                  marginRight: "5px",
                 }}
               >
-                <div className="border border-gray-300 rounded-lg shadow-lg bg-white overflow-hidden">
-                  <Image
-                    src={slide.imageUrl}
-                    alt={slide.title}
-                    width={300}
-                    height={200}
-                    className="object-cover w-full h-48"
-                  />
+                <div className="border border-gray-300 rounded-lg shadow-lg bg-white overflow-hidden h-full">
+                  <div className="relative h-48">
+                    <Image
+                      src={slide.imageUrl}
+                      alt={slide.title}
+                      fill
+                      className="object-cover"
+                    />
+                  </div>
                   <div className="p-4">
                     <h2 className="text-lg font-bold text-gray-800">
                       {slide.title}
@@ -149,6 +213,43 @@ const RoomCarousel = () => {
               </div>
             );
           })}
+        </div>
+
+        {/* Botón Derecha */}
+        <button
+          onClick={handleNextClick}
+          className="absolute right-0 top-1/2 -translate-y-1/2 z-20 bg-white bg-opacity-70 p-2 rounded-full shadow-md hover:bg-opacity-100 transition-all"
+          aria-label="Siguiente habitación"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          >
+            <polyline points="9 18 15 12 9 6"></polyline>
+          </svg>
+        </button>
+
+        {/* Indicadores de posición */}
+        <div className="flex justify-center mt-8 gap-2">
+          {slides.map((_, index) => (
+            <button
+              key={index}
+              onClick={() => handleCardClick(index)}
+              className={`w-3 h-3 rounded-full transition-all ${
+                index === currentIndex
+                  ? "bg-black w-6"
+                  : "bg-gray-300 hover:bg-gray-400"
+              }`}
+              aria-label={`Ir a habitación ${index + 1}`}
+            ></button>
+          ))}
         </div>
       </div>
     </div>
