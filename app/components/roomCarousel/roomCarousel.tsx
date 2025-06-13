@@ -1,117 +1,109 @@
 "use client";
 
 import Image from "next/image";
-import Link from "next/link";
-import { useState, useEffect } from "react";
-
-// Definimos el tipo de los datos de las diapositivas
-interface Slide {
-  id: number;
-  title: string;
-  description: string;
-  imageUrl: string;
-  linkRates: string;
-  linkDetails: string;
-}
-
-const slides: Slide[] = [
-  {
-    id: 1,
-    title: "Habitación Grand Premier",
-    description:
-      "La luz natural inunda estas elegantes habitaciones con vista a la calle, que ofrecen un amplio espacio para trabajar o descansar.",
-    imageUrl:
-      "https://www.fourseasons.com/alt/img-opt/~75.701/publish/content/dam/fourseasons/images/web/BHA/BHA_034_aspect16x9.jpg",
-    linkRates:
-      "https://reservations.fourseasons.com/es?hotelCode=BOG923&roomOwsCodes=P1K,P1Q,P2Q",
-    linkDetails: "/es/bogota/accommodations/guest_rooms/premier_room/",
-  },
-  {
-    id: 2,
-    title: "Suite Premier de una habitación",
-    description:
-      "Con dos salas de estar, estas elegantes y cómodas suites son perfectas para recibir invitados.",
-    imageUrl:
-      "https://www.fourseasons.com/alt/img-opt/~75.701/publish/content/dam/fourseasons/images/web/BHA/BHA_040_aspect16x9.jpg",
-    linkRates:
-      "https://reservations.fourseasons.com/es?hotelCode=BOG923&roomOwsCodes=T1K",
-    linkDetails:
-      "/es/bogota/accommodations/suites/one_bedroom_premier_suite/",
-  },
-  {
-    id: 3,
-    title: "Suite Ejecutiva Four Seasons",
-    description:
-      "Resulta fácil acomodarse en estas modernas suites gracias a su decoración ultra elegante, sus amplias salas de estar y su abundante luz natural.",
-    imageUrl:
-      "https://www.fourseasons.com/alt/img-opt/~75.701/publish/content/dam/fourseasons/images/web/BHA/BHA_096_aspect16x9.jpg",
-    linkRates:
-      "https://reservations.fourseasons.com/es?hotelCode=BOG923&roomOwsCodes=F1Q",
-    linkDetails:
-      "/es/bogota/accommodations/suites/four_seasons_executive_suite/",
-  },
-  {
-    id: 4,
-    title: "Suite del Penthouse",
-    description:
-      "Una estadía en esta aislada suite estilo apartamento le permite disfrutar de una terraza privada, una chimenea de leña, sábanas de algodón egipcio y flores frescas, solo para usted.",
-    imageUrl:
-      "https://www.fourseasons.com/alt/img-opt/~75.701.0,0000-0,0000-1600,0000-900,0000/publish/content/dam/fourseasons/images/web/BHA/BHA_257_aspect16x9.jpg",
-    linkRates:
-      "https://reservations.fourseasons.com/es?hotelCode=BOG923&roomOwsCodes=Z1K",
-    linkDetails:
-      "/es/bogota/accommodations/specialty_suites/penthouse_suite/",
-  },
-  {
-    id: 5,
-    title: "Habitación Deluxe",
-    description:
-      "Esta cómoda y amplia habitación cuenta con elegantes pisos de madera y ventanales que ofrecen vistas del colorido barrio circundante.",
-    imageUrl:
-      "https://www.fourseasons.com/alt/img-opt/~75.701/publish/content/dam/fourseasons/images/web/BHA/BHA_097_aspect16x9.jpg",
-    linkRates:
-      "https://reservations.fourseasons.com/es?hotelCode=BOG923&roomOwsCodes=A1Q",
-    linkDetails: "/es/bogota/accommodations/guest_rooms/deluxe_room/",
-  },
-];
+import { useState, useEffect, useCallback, useRef } from "react";
+import { ChevronLeft, ChevronRight } from "lucide-react";
+import { Button } from "../ui/button";
+import { getRooms, formatPrice, type Room } from "../../lib/data";
 
 const RoomCarousel = () => {
-  const [currentIndex, setCurrentIndex] = useState<number>(2); // Índice inicial centrado
-  const cardWidth = 340; // Ancho de cada tarjeta incluyendo márgenes
-  const centerPosition = 2; // Posición central en el carrusel (0-indexed)
+  const [currentIndex, setCurrentIndex] = useState<number>(0);
+  const [isLoaded, setIsLoaded] = useState(false);
+  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
+  const [rooms, setRooms] = useState<Room[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [isTransitioning, setIsTransitioning] = useState(false);
+  const [isPaused, setIsPaused] = useState(false);
+  const intervalRef = useRef<NodeJS.Timeout | null>(null);
 
-  // Mover una tarjeta al centro al hacer clic
-  const handleCardClick = (index: number) => {
-    setCurrentIndex(index);
-  };
-
-  // Función para mover a la izquierda con scroll infinito
-  const handlePrevClick = () => {
-    // Si estamos en la primera slide, vamos a la última
-    if (currentIndex <= 0) {
-      setCurrentIndex(slides.length - 1);
-    } else {
-      setCurrentIndex(currentIndex - 1);
+  // Función para reiniciar el timer del auto-advance
+  const resetAutoAdvanceTimer = useCallback(() => {
+    if (intervalRef.current) {
+      clearInterval(intervalRef.current);
     }
-  };
-
-  // Función para mover a la derecha con scroll infinito
-  const handleNextClick = () => {
-    // Si estamos en la última slide, volvemos a la primera
-    if (currentIndex >= slides.length - 1) {
-      setCurrentIndex(0);
-    } else {
-      setCurrentIndex(currentIndex + 1);
+    
+    if (rooms.length > 0 && !isPaused) {
+      intervalRef.current = setInterval(() => {
+        setCurrentIndex((prev) => (prev + 1) % rooms.length);
+      }, 5000);
     }
-  };
+  }, [rooms.length, isPaused]);
 
-  // Calcular la transformación para centrar la tarjeta actual
-  const calculateTransform = () => {
-    return -(currentIndex - centerPosition) * cardWidth;
-  };
+  const pauseTimer = useCallback(() => {
+    setIsPaused(true);
+    if (intervalRef.current) {
+      clearInterval(intervalRef.current);
+    }
+    // Resume after 8 seconds
+    setTimeout(() => {
+      setIsPaused(false);
+    }, 8000);
+  }, []);
 
-  // Añadir control de teclado para navegación (opcional)
   useEffect(() => {
+    const loadRooms = async () => {
+      try {
+        const roomsData = await getRooms();
+        console.log('Rooms loaded:', roomsData);
+        setRooms(roomsData);
+        setLoading(false);
+        setIsLoaded(true);
+      } catch (error) {
+        console.error('Error loading rooms:', error);
+        setLoading(false);
+      }
+    };
+
+    loadRooms();
+    
+    const handleMouseMove = (e: MouseEvent) => {
+      setMousePosition({ x: e.clientX, y: e.clientY });
+    };
+
+    window.addEventListener('mousemove', handleMouseMove);
+    return () => window.removeEventListener('mousemove', handleMouseMove);
+  }, []);
+
+  // Auto-advance carousel
+  useEffect(() => {
+    if (rooms.length === 0) return;
+    
+    resetAutoAdvanceTimer();
+    
+    return () => {
+      if (intervalRef.current) {
+        clearInterval(intervalRef.current);
+      }
+    };
+  }, [resetAutoAdvanceTimer]);
+
+  const handleCardClick = useCallback((index: number) => {
+    if (isTransitioning || index === currentIndex) return;
+    setIsTransitioning(true);
+    setCurrentIndex(index);
+    pauseTimer();
+    setTimeout(() => setIsTransitioning(false), 600);
+  }, [isTransitioning, currentIndex, pauseTimer]);
+
+  const handlePrevClick = useCallback(() => {
+    if (rooms.length === 0 || isTransitioning) return;
+    setIsTransitioning(true);
+    setCurrentIndex((prev) => (prev - 1 + rooms.length) % rooms.length);
+    pauseTimer();
+    setTimeout(() => setIsTransitioning(false), 600);
+  }, [rooms.length, isTransitioning, pauseTimer]);
+
+  const handleNextClick = useCallback(() => {
+    if (rooms.length === 0 || isTransitioning) return;
+    setIsTransitioning(true);
+    setCurrentIndex((prev) => (prev + 1) % rooms.length);
+    pauseTimer();
+    setTimeout(() => setIsTransitioning(false), 600);
+  }, [rooms.length, isTransitioning, pauseTimer]);
+
+  useEffect(() => {
+    if (rooms.length === 0) return;
+    
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === "ArrowLeft") {
         handlePrevClick();
@@ -124,134 +116,357 @@ const RoomCarousel = () => {
     return () => {
       window.removeEventListener("keydown", handleKeyDown);
     };
-  }, [currentIndex]);
+  }, [rooms.length, handlePrevClick, handleNextClick]);
+
+  // Función para corregir la ruta de la imagen
+  const getImagePath = (imagePath: string) => {
+    return imagePath.replace('/images/', '/').replace('.jpg', '.jpeg');
+  };
+
+  if (loading) {
+    return (
+      <div className="relative max-w-screen-xl mx-auto p-6 overflow-hidden">
+        <div className="text-center py-20">
+          <div className="animate-pulse">
+            <div className="h-8 bg-gray-200 rounded w-64 mx-auto mb-4"></div>
+            <div className="h-4 bg-gray-200 rounded w-96 mx-auto"></div>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  if (rooms.length === 0) {
+    return (
+      <div className="relative max-w-screen-xl mx-auto p-6 overflow-hidden">
+        <div className="text-center py-20">
+          <p className="text-gray-500">No hay habitaciones disponibles.</p>
+        </div>
+      </div>
+    );
+  }
 
   return (
-    <div className="max-w-screen-xl mx-auto p-4">
-      <h1 className="text-2xl font-bold mb-8 text-center uppercase">
-        Alojamiento
-      </h1>
+    <div className="relative max-w-screen-xl mx-auto px-6 py-6 overflow-hidden">
+      
+      {/* Floating background orbs */}
+      <div 
+        className="absolute top-0 left-0 w-64 h-64 bg-gradient-to-br from-gray-200/10 via-gray-300/5 to-transparent rounded-full blur-3xl transition-all duration-1000 ease-out pointer-events-none"
+        style={{
+          transform: `translate(${mousePosition.x * 0.01}px, ${mousePosition.y * 0.005}px)`,
+        }}
+      />
+      <div 
+        className="absolute bottom-0 right-0 w-48 h-48 bg-gradient-to-tl from-gray-400/8 via-gray-200/5 to-transparent rounded-full blur-2xl transition-all duration-1000 ease-out pointer-events-none"
+        style={{
+          transform: `translate(${-mousePosition.x * 0.008}px, ${-mousePosition.y * 0.004}px)`,
+        }}
+      />
 
-      {/* Contenedor del carrusel */}
-      <div className="relative overflow-hidden">
-        {/* Botón Izquierda */}
-        <button
-          onClick={handlePrevClick}
-          className="absolute left-0 top-1/2 -translate-y-1/2 z-20 bg-white bg-opacity-70 p-2 rounded-full shadow-md hover:bg-opacity-100 transition-all"
-          aria-label="Anterior habitación"
+      {/* Section Title */}
+      <div className="text-center mb-12 relative z-10">
+        <h1 
+          className={`font-serif text-3xl md:text-4xl lg:text-5xl font-bold mb-4 bg-gradient-to-r from-gray-800 via-gray-700 to-gray-900 bg-clip-text text-transparent transform transition-all duration-1000 ${
+            isLoaded ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'
+          }`}
         >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="24"
-            height="24"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="2"
-            strokeLinecap="round"
-            strokeLinejoin="round"
+          Nuestras Habitaciones
+        </h1>
+        <p 
+          className={`font-sans text-lg text-gray-600 max-w-2xl mx-auto transform transition-all duration-1000 ${
+            isLoaded ? 'translate-y-0 opacity-100' : 'translate-y-4 opacity-0'
+          }`}
+          style={{ animationDelay: '0.2s' }}
+        >
+          Descubre espacios únicos diseñados para crear experiencias memorables
+        </p>
+      </div>
+
+      {/* Carousel Container */}
+      <div className="relative">
+        
+        {/* Carousel Grid - Nuevo enfoque */}
+        <div className="relative h-[450px] flex items-center justify-center mb-8">
+        
+          {/* Navigation Button - Left */}
+          <button
+            onClick={handlePrevClick}
+            disabled={isTransitioning}
+            className="absolute left-4 top-1/2 -translate-y-1/2 z-30 p-4 bg-white/10 backdrop-blur-xl rounded-xl border border-white/20 text-gray-700 hover:text-gray-900 hover:bg-white/25 transition-all duration-500 hover:scale-110 hover:-translate-y-1 shadow-xl group disabled:opacity-50"
+            aria-label="Habitación anterior"
           >
-            <polyline points="15 18 9 12 15 6"></polyline>
-          </svg>
-        </button>
+            <ChevronLeft className="w-6 h-6 group-hover:scale-110 transition-transform duration-300" />
+          </button>
+          
+          {/* Cards with Absolute Positioning */}
+          <div className="relative flex items-center justify-center w-full h-full">
+            
+            {/* Left Card */}
+            <div 
+              className="absolute left-32 top-1/2 -translate-y-1/2 cursor-pointer transform scale-75 opacity-50 hover:opacity-70 hover:scale-80 transition-all duration-500 w-72 z-10"
+              onClick={() => handleCardClick((currentIndex - 1 + rooms.length) % rooms.length)}
+            >
+              <div className="relative bg-white/70 backdrop-blur-2xl rounded-xl shadow-2xl border border-white/20 overflow-hidden transition-all duration-500 hover:scale-105 hover:-translate-y-2 hover:shadow-3xl group h-full">
+                
+                {/* Image Container */}
+                <div className="relative h-40 overflow-hidden">
+                  <Image
+                    src={getImagePath(rooms[(currentIndex - 1 + rooms.length) % rooms.length].featuredImage)}
+                    alt={rooms[(currentIndex - 1 + rooms.length) % rooms.length].title}
+                    fill
+                    className="object-cover transition-transform duration-700 group-hover:scale-110"
+                  />
+                  
+                  {/* Image Overlay */}
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                </div>
 
-        {/* Carrusel */}
-        <div
-          className="flex justify-center items-center gap-4 transition-transform duration-500 ease-in-out"
-          style={{
-            transform: `translateX(${calculateTransform()}px)`,
-          }}
-        >
-          {slides.map((slide, index) => {
-            const isCenter = index === currentIndex;
+                {/* Content */}
+                <div className="p-4 relative z-10">
+                  <h3 className="font-serif text-lg font-bold text-gray-900 mb-2 group-hover:text-gray-800 transition-colors duration-300">
+                    {rooms[(currentIndex - 1 + rooms.length) % rooms.length].title}
+                  </h3>
+                  
+                  <p className="font-sans text-xs text-gray-600 leading-relaxed mb-4 group-hover:text-gray-700 transition-colors duration-300 line-clamp-2">
+                    {rooms[(currentIndex - 1 + rooms.length) % rooms.length].description}
+                  </p>
 
-            return (
-              <div
-                key={index}
-                onClick={() => handleCardClick(index)}
-                className={`flex-shrink-0 transition-all duration-500 cursor-pointer ${
-                  isCenter
-                    ? "scale-105 z-10 opacity-100"
-                    : "scale-90 opacity-70"
-                }`}
-                style={{
-                  width: "300px",
-                  marginLeft: "5px",
-                  marginRight: "5px",
-                }}
-              >
-                <div className="border border-gray-300 rounded-lg shadow-lg bg-white overflow-hidden h-full">
-                  <div className="relative h-48">
-                    <Image
-                      src={slide.imageUrl}
-                      alt={slide.title}
-                      fill
-                      className="object-cover"
-                    />
-                  </div>
-                  <div className="p-4">
-                    <h2 className="text-lg font-bold text-gray-800">
-                      {slide.title}
-                    </h2>
-                    <p className="text-sm text-gray-600 my-2">
-                      {slide.description}
-                    </p>
-                    <div className="flex gap-2 mt-4">
-                      <Link href={slide.linkRates} legacyBehavior>
-                        <a className="text-sm font-bold text-white bg-black px-4 py-2 rounded hover:bg-gray-800 transition">
-                          Verificar tarifas
-                        </a>
-                      </Link>
-                      <Link href={slide.linkDetails} legacyBehavior>
-                        <a className="text-sm font-bold text-black border border-black px-4 py-2 rounded hover:bg-black hover:text-white transition">
-                          Detalles
-                        </a>
-                      </Link>
-                    </div>
+                  {/* Action Buttons */}
+                  <div className="flex gap-2">
+                    <Button
+                      variant="primary"
+                      size="sm"
+                      href={`/reservas?room=${rooms[(currentIndex - 1 + rooms.length) % rooms.length].id}`}
+                      showIndicator={false}
+                      className="flex-1 font-medium text-xs"
+                    >
+                      Verificar Tarifas
+                    </Button>
+                    
+                    <Button
+                      variant="secondary"
+                      size="sm"
+                      href={`/habitaciones/${rooms[(currentIndex - 1 + rooms.length) % rooms.length].id}`}
+                      className="px-3 font-medium text-xs"
+                    >
+                      Detalles
+                    </Button>
                   </div>
                 </div>
               </div>
-            );
-          })}
+            </div>
+            
+            {/* Center Card - Featured */}
+            <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 cursor-pointer transform scale-100 z-20 opacity-100 transition-all duration-500 w-96">
+              <div className="relative bg-white/70 backdrop-blur-2xl rounded-xl shadow-2xl border border-white/20 overflow-hidden transition-all duration-500 hover:scale-105 hover:-translate-y-2 hover:shadow-3xl group h-full">
+                
+                {/* Image Container */}
+                <div className="relative h-44 overflow-hidden">
+                  <Image
+                    src={getImagePath(rooms[currentIndex].featuredImage)}
+                    alt={rooms[currentIndex].title}
+                    fill
+                    className="object-cover transition-transform duration-700 group-hover:scale-110"
+                  />
+                  
+                  {/* Image Overlay */}
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                </div>
+
+                {/* Content */}
+                <div className="p-5 relative z-10">
+                  <h3 className="font-serif text-xl font-bold text-gray-900 mb-3 group-hover:text-gray-800 transition-colors duration-300">
+                    {rooms[currentIndex].title}
+                  </h3>
+                  
+                  <p className="font-sans text-sm text-gray-600 leading-relaxed mb-4 group-hover:text-gray-700 transition-colors duration-300 line-clamp-2">
+                    {rooms[currentIndex].description}
+                  </p>
+
+                  {/* Action Buttons */}
+                  <div className="flex gap-3">
+                    <Button
+                      variant="primary"
+                      size="sm"
+                      href={`/reservas?room=${rooms[currentIndex].id}`}
+                      showIndicator={false}
+                      className="flex-1 font-medium"
+                    >
+                      Verificar Tarifas
+                    </Button>
+                    
+                    <Button
+                      variant="secondary"
+                      size="sm"
+                      href={`/habitaciones/${rooms[currentIndex].id}`}
+                      className="px-4 font-medium"
+                    >
+                      Detalles
+                    </Button>
+                  </div>
+                </div>
+                
+                {/* Center indicator */}
+                <div className="absolute top-4 left-4 w-3 h-3 bg-gradient-to-br from-gray-700 to-gray-900 rounded-full shadow-lg animate-pulse" />
+              </div>
+            </div>
+            
+            {/* Right Card */}
+            <div 
+              className="absolute right-32 top-1/2 -translate-y-1/2 cursor-pointer transform scale-75 opacity-50 hover:opacity-70 hover:scale-80 transition-all duration-500 w-72 z-10"
+              onClick={() => handleCardClick((currentIndex + 1) % rooms.length)}
+            >
+              <div className="relative bg-white/70 backdrop-blur-2xl rounded-xl shadow-2xl border border-white/20 overflow-hidden transition-all duration-500 hover:scale-105 hover:-translate-y-2 hover:shadow-3xl group h-full">
+                
+                {/* Image Container */}
+                <div className="relative h-40 overflow-hidden">
+                  <Image
+                    src={getImagePath(rooms[(currentIndex + 1) % rooms.length].featuredImage)}
+                    alt={rooms[(currentIndex + 1) % rooms.length].title}
+                    fill
+                    className="object-cover transition-transform duration-700 group-hover:scale-110"
+                  />
+                  
+                  {/* Image Overlay */}
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                </div>
+
+                {/* Content */}
+                <div className="p-6 relative z-10">
+                  <h3 className="font-serif text-xl font-bold text-gray-900 mb-3 group-hover:text-gray-800 transition-colors duration-300">
+                    {rooms[(currentIndex + 1) % rooms.length].title}
+                  </h3>
+                  
+                  <p className="font-sans text-sm text-gray-600 leading-relaxed mb-6 group-hover:text-gray-700 transition-colors duration-300 line-clamp-3">
+                    {rooms[(currentIndex + 1) % rooms.length].description}
+                  </p>
+
+                  {/* Action Buttons */}
+                  <div className="flex gap-3">
+                    <Button
+                      variant="primary"
+                      size="sm"
+                      href={`/reservas?room=${rooms[(currentIndex + 1) % rooms.length].id}`}
+                      showIndicator={false}
+                      className="flex-1 font-medium"
+                    >
+                      Verificar Tarifas
+                    </Button>
+                    
+                    <Button
+                      variant="secondary"
+                      size="sm"
+                      href={`/habitaciones/${rooms[(currentIndex + 1) % rooms.length].id}`}
+                      className="px-4 font-medium"
+                    >
+                      Detalles
+                    </Button>
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+          </div>
+
+          {/* Navigation Button - Right */}
+          <button
+            onClick={handleNextClick}
+            disabled={isTransitioning}
+            className="absolute right-4 top-1/2 -translate-y-1/2 z-30 p-4 bg-white/10 backdrop-blur-xl rounded-xl border border-white/20 text-gray-700 hover:text-gray-900 hover:bg-white/25 transition-all duration-500 hover:scale-110 hover:-translate-y-1 shadow-xl group disabled:opacity-50"
+            aria-label="Siguiente habitación"
+          >
+            <ChevronRight className="w-6 h-6 group-hover:scale-110 transition-transform duration-300" />
+          </button>
+
         </div>
 
-        {/* Botón Derecha */}
-        <button
-          onClick={handleNextClick}
-          className="absolute right-0 top-1/2 -translate-y-1/2 z-20 bg-white bg-opacity-70 p-2 rounded-full shadow-md hover:bg-opacity-100 transition-all"
-          aria-label="Siguiente habitación"
-        >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="24"
-            height="24"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="2"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          >
-            <polyline points="9 18 15 12 9 6"></polyline>
-          </svg>
-        </button>
-
-        {/* Indicadores de posición */}
-        <div className="flex justify-center mt-8 gap-2">
-          {slides.map((_, index) => (
+        {/* Premium Indicators */}
+        <div className="flex justify-center gap-3">
+          {rooms.map((_, index) => (
             <button
               key={index}
               onClick={() => handleCardClick(index)}
-              className={`w-3 h-3 rounded-full transition-all ${
+              disabled={isTransitioning}
+              className={`relative overflow-hidden rounded-full transition-all duration-500 group disabled:cursor-not-allowed ${
                 index === currentIndex
-                  ? "bg-black w-6"
-                  : "bg-gray-300 hover:bg-gray-400"
+                  ? "w-8 h-3 bg-gradient-to-r from-gray-900 via-gray-800 to-black"
+                  : "w-3 h-3 bg-gray-300/60 hover:bg-gray-400/80 hover:scale-125"
               }`}
               aria-label={`Ir a habitación ${index + 1}`}
-            ></button>
+            >
+              {/* Active indicator glow */}
+              {index === currentIndex && (
+                <div className="absolute inset-0 bg-gradient-to-r from-white/20 via-white/10 to-white/20 animate-pulse" />
+              )}
+              
+              {/* Hover shimmer */}
+              <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-r from-transparent via-white/30 to-transparent transform -skew-x-12 animate-pulse" />
+              </div>
+            </button>
           ))}
         </div>
       </div>
+
+      {/* Featured Room Info */}
+      {rooms[currentIndex] && (
+        <div 
+          className={`mt-12 text-center max-w-2xl mx-auto transform transition-all duration-700 ${
+            isLoaded ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'
+          }`}
+        >
+          <div className="bg-white/40 backdrop-blur-xl rounded-2xl p-8 border border-white/30 shadow-lg relative overflow-hidden group">
+            <h4 className="font-serif text-2xl font-bold text-gray-900 mb-3">
+              {rooms[currentIndex].title}
+            </h4>
+            
+            {/* Room Details */}
+            <div className="flex items-center justify-center gap-6 text-sm text-gray-600 mb-4">
+              <span className="flex items-center">
+                <strong className="mr-1">{rooms[currentIndex].capacity}</strong> huéspedes
+              </span>
+              <span className="flex items-center">
+                <strong className="mr-1">{rooms[currentIndex].size}</strong>
+              </span>
+              <span className="flex items-center">
+                <strong className="mr-1">{formatPrice(rooms[currentIndex].price)}</strong> por noche
+              </span>
+            </div>
+            
+            {/* Main Amenities */}
+            <div className="flex flex-wrap justify-center gap-2 mb-6">
+              {rooms[currentIndex].amenities.slice(0, 4).map((amenity, idx) => (
+                <span 
+                  key={idx}
+                  className="px-3 py-1 bg-white/50 text-gray-700 rounded-full text-xs font-medium"
+                >
+                  {amenity}
+                </span>
+              ))}
+            </div>
+            
+            <div className="flex gap-4 justify-center">
+              <Button
+                variant="primary"
+                href={`/reservas?room=${rooms[currentIndex].id}`}
+                showIndicator={true}
+              >
+                Reservar Ahora
+              </Button>
+              <Button
+                variant="secondary"
+                href={`/habitaciones/${rooms[currentIndex].id}`}
+              >
+                Ver Detalles
+              </Button>
+            </div>
+            
+            {/* Background decoration */}
+            <div className="absolute top-4 right-8 w-1 h-8 bg-gradient-to-b from-transparent via-gray-300/30 to-transparent rotate-45 animate-pulse opacity-60" />
+            <div className="absolute bottom-6 left-12 w-6 h-0.5 bg-gradient-to-r from-transparent via-gray-300/20 to-transparent animate-pulse opacity-40" style={{ animationDelay: '1s' }} />
+          </div>
+        </div>
+      )}
     </div>
   );
 };

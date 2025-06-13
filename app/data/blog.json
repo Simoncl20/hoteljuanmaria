@@ -1,0 +1,165 @@
+{
+    "blog": {
+      "posts": [
+        {
+          "id": 1,
+          "title": "Descubre los Sabores de Cali en Nuestro Restaurante",
+          "slug": "sabores-cali-restaurante",
+          "excerpt": "Un viaje culinario por los mejores platos tradicionales e internacionales que ofrece nuestra cocina gourmet.",
+          "content": "En Hotel Elegance, creemos que la gastronomía es una parte fundamental de cualquier experiencia de viaje. Nuestro restaurante combina los sabores auténticos de la región vallecaucana con técnicas culinarias internacionales...\n\nNuestro chef ejecutivo, Miguel Ángel Torres, ha diseñado un menú que celebra los ingredientes locales frescos, desde el famoso sancocho valluno hasta creaciones innovadoras que fusionan tradición y modernidad.\n\n**Platos destacados:**\n- Sancocho Valluno Premium con carnes selectas\n- Pescado del Pacífico con reducción de maracuyá\n- Postres artesanales con frutas tropicales\n- Cócteles con destilados colombianos premium\n\nCada plato es preparado con ingredientes seleccionados de productores locales, apoyando así la economía regional y garantizando frescura en cada bocado.",
+          "author": {
+            "name": "Miguel Ángel Torres",
+            "role": "Chef Ejecutivo",
+            "avatar": "/images/authors/miguel-torres.jpg"
+          },
+          "category": "Gastronomía",
+          "tags": ["restaurante", "cocina local", "chef", "menú"],
+          "publishedAt": "2025-06-10T09:00:00Z",
+          "updatedAt": "2025-06-10T09:00:00Z",
+          "featuredImage": "/images/blog/sabores-cali.jpg",
+          "featured": true,
+          "readTime": 5,
+          "seo": {
+            "metaTitle": "Gastronomía de Cali en Hotel Elegance | Cocina Gourmet",
+            "metaDescription": "Descubre los auténticos sabores de Cali en nuestro restaurante gourmet. Platos tradicionales e internacionales preparados por chefs expertos."
+          }
+        },
+        {
+          "id": 2,
+          "title": "5 Razones para Elegir Nuestro Spa para tu Bienestar",
+          "slug": "spa-bienestar-hotel-elegance",
+          "excerpt": "Conoce por qué nuestro spa es el lugar perfecto para relajarte y rejuvenecer durante tu estadía.",
+          "content": "En un mundo cada vez más acelerado, encontrar momentos de paz y relajación se ha convertido en una necesidad. Nuestro spa en Hotel Elegance ofrece un santuario de tranquilidad donde puedes desconectarte del estrés diario...\n\n**1. Tratamientos Personalizados**\nCada sesión es diseñada específicamente para tus necesidades, desde masajes relajantes hasta tratamientos faciales rejuvenecedores.\n\n**2. Productos Naturales**\nUtilizamos productos orgánicos y naturales, muchos de ellos con ingredientes colombianos como café, cacao y aceites esenciales.\n\n**3. Terapeutas Certificados**\nNuestro equipo está formado por profesionales con certificaciones internacionales en diversas técnicas de spa.\n\n**4. Instalaciones de Lujo**\nSalas privadas, sauna, baño turco y áreas de relajación diseñadas para tu máximo confort.\n\n**5. Paquetes Especiales**\nOfreces paquetes románticos para parejas y tratamientos especiales para ocasiones especiales.",
+          "author": {
+            "name": "Laura Jiménez",
+            "role": "Gerente de Experiencia al Cliente",
+            "avatar": "/images/authors/laura-jimenez.jpg"
+          },
+          "category": "Bienestar",
+          "tags": ["spa", "relajación", "bienestar", "tratamientos"],
+          "publishedAt": "2025-06-08T14:30:00Z",
+          "updatedAt": "2025-06-08T14:30:00Z",
+          "featuredImage": "/images/blog/spa-bienestar.jpg",
+          "featured": true,
+          "readTime": 4,
+          "seo": {
+            "metaTitle": "Spa de Lujo en Cali | Hotel Elegance Bienestar",
+            "metaDescription": "Relájate en nuestro spa de lujo con tratamientos personalizados, productos naturales y terapeutas certificados en Cali."
+          }
+        },
+        {
+          "id": 3,
+          "title": "Guía Completa: Qué Hacer en Cali Durante tu Estadía",
+          "slug": "que-hacer-cali-turismo",
+          "excerpt": "Descubre los mejores lugares turísticos, restaurantes y actividades que Cali tiene para ofrecer.",
+          "content": "Cali, conocida como la 'Sucursal del Cielo', es una ciudad vibrante llena de cultura, música y tradición. Como huéspedes de Hotel Elegance, tienen acceso privilegiado a las mejores experiencias que la ciudad ofrece...\n\n**Lugares Imperdibles:**\n\n**Centro Histórico y La Merced**\nRecorre las calles empedradas del centro histórico y visita la iglesia de La Merced, uno de los íconos arquitectónicos de la ciudad.\n\n**Cerro de las Tres Cruces**\nUna caminata moderada que te recompensa con vistas panorámicas espectaculares de toda la ciudad.\n\n**Barrio San Antonio**\nEl corazón bohemio de Tuluá, perfecto para disfrutar de arte, música en vivo y la mejor vida nocturna.\n\n**Zoológico de Cali**\nUno de los mejores zoológicos de América Latina, ideal para visitas familiares.\n\n**Experiencias Gastronómicas:**\n- Mercado Alameda para auténtica comida local\n- Zona Rosa para restaurantes gourmet\n- Barrio Granada para la mejor vida nocturna\n\n**Actividades de Aventura:**\n- Parapente en las montañas cercanas\n- Rafting en el río Pance\n- Avistamiento de aves en el Valle del Cauca\n\nNuestro equipo de concierge está disponible 24/7 para ayudarte a planificar tu itinerario perfecto.",
+          "author": {
+            "name": "Carlos Mendoza",
+            "role": "Director General",
+            "avatar": "/images/authors/carlos-mendoza.jpg"
+          },
+          "category": "Turismo",
+          "tags": ["cali", "turismo", "actividades", "guía de viaje"],
+          "publishedAt": "2025-06-05T10:15:00Z",
+          "updatedAt": "2025-06-05T10:15:00Z",
+          "featuredImage": "/images/blog/cali-turismo.jpg",
+          "featured": true,
+          "readTime": 8,
+          "seo": {
+            "metaTitle": "Qué Hacer en Cali | Guía Turística Completa 2025",
+            "metaDescription": "Descubre los mejores lugares turísticos, restaurantes y actividades en Cali. Guía completa desde Hotel Elegance."
+          }
+        },
+        {
+          "id": 4,
+          "title": "Eventos Corporativos: El Espacio Perfecto para tu Empresa",
+          "slug": "eventos-corporativos-hotel-elegance",
+          "excerpt": "Conoce nuestras instalaciones y servicios especializados para eventos empresariales exitosos.",
+          "content": "En Hotel Elegance entendemos que los eventos corporativos requieren atención especial y un ambiente que inspire productividad y networking efectivo...\n\n**Nuestras Instalaciones:**\n\n**Salón Principal (200 personas)**\nEspacio amplio y versátil con tecnología de punta, perfecto para conferencias, presentaciones y cenas de gala.\n\n**Salas de Reuniones (10-50 personas)**\nEspacios íntimos ideales para juntas directivas, workshops y reuniones estratégicas.\n\n**Terraza Panorámica**\nAmbiente al aire libre con vista a la ciudad, perfecto para cóctel de bienvenida y networking.\n\n**Servicios Incluidos:**\n- Equipo audiovisual de última generación\n- WiFi de alta velocidad dedicado\n- Servicio de catering personalizado\n- Coordinador de eventos especializado\n- Servicio de valet parking\n- Alojamiento preferencial para asistentes\n\n**Paquetes Corporativos:**\n- Day meetings con coffee breaks\n- Eventos de medio día con almuerzo\n- Conferencias de día completo\n- Retiros empresariales de fin de semana\n\nNuestro equipo trabaja contigo desde la planificación hasta la ejecución para garantizar el éxito de tu evento.",
+          "author": {
+            "name": "Ana Patricia Ruiz",
+            "role": "Gerente de Operaciones",
+            "avatar": "/images/authors/ana-ruiz.jpg"
+          },
+          "category": "Eventos",
+          "tags": ["eventos corporativos", "reuniones", "conferencias", "empresa"],
+          "publishedAt": "2025-06-03T08:45:00Z",
+          "updatedAt": "2025-06-03T08:45:00Z",
+          "featuredImage": "/images/blog/eventos-corporativos.jpg",
+          "featured": false,
+          "readTime": 6,
+          "seo": {
+            "metaTitle": "Eventos Corporativos en Cali | Hotel Elegance",
+            "metaDescription": "Espacios y servicios especializados para eventos corporativos exitosos en Cali. Salas de reuniones y tecnología de punta."
+          }
+        },
+        {
+          "id": 5,
+          "title": "Sostenibilidad: Nuestro Compromiso con el Medio Ambiente",
+          "slug": "sostenibilidad-hotel-elegance",
+          "excerpt": "Conoce las iniciativas ecológicas que implementamos para un turismo más sostenible.",
+          "content": "En Hotel Elegance, creemos que el lujo y la sostenibilidad pueden coexistir. Nuestro compromiso con el medio ambiente se refleja en cada aspecto de nuestra operación...\n\n**Iniciativas Ambientales:**\n\n**Energía Renovable**\nEl 70% de nuestra energía proviene de paneles solares instalados en nuestras instalaciones.\n\n**Gestión del Agua**\n- Sistemas de reciclaje de agua lluvia\n- Grifería de bajo flujo en todas las habitaciones\n- Tratamiento y reutilización de aguas grises\n\n**Reducción de Residuos**\n- Programa de compostaje orgánico\n- Eliminación de plásticos de un solo uso\n- Estaciones de reciclaje en todo el hotel\n\n**Productos Locales**\nPriorizamos proveedores locales para reducir la huella de carbono y apoyar la economía regional.\n\n**Certificaciones:**\n- Green Key Certification\n- Rainforest Alliance Verified\n- Certificación LEED Gold\n\n**Programas para Huéspedes:**\n- Tours ecológicos a reservas naturales\n- Talleres de sostenibilidad\n- Programa de reforestación voluntaria\n\nCada huésped que se hospeda con nosotros contribuye automáticamente a nuestro fondo de conservación ambiental.",
+          "author": {
+            "name": "Carlos Mendoza",
+            "role": "Director General",
+            "avatar": "/images/authors/carlos-mendoza.jpg"
+          },
+          "category": "Sostenibilidad",
+          "tags": ["sostenibilidad", "medio ambiente", "turismo responsable"],
+          "publishedAt": "2025-06-01T11:20:00Z",
+          "updatedAt": "2025-06-01T11:20:00Z",
+          "featuredImage": "/images/blog/sostenibilidad.jpg",
+          "featured": false,
+          "readTime": 7,
+          "seo": {
+            "metaTitle": "Hotel Sostenible en Cali | Turismo Responsable",
+            "metaDescription": "Conoce nuestras iniciativas de sostenibilidad y compromiso ambiental en Hotel Elegance. Turismo de lujo responsable."
+          }
+        }
+      ],
+      "categories": [
+        {
+          "id": "gastronomia",
+          "name": "Gastronomía",
+          "description": "Descubre nuestra propuesta culinaria y experiencias gastronómicas",
+          "color": "#FF6B6B",
+          "postCount": 1
+        },
+        {
+          "id": "bienestar",
+          "name": "Bienestar",
+          "description": "Todo sobre spa, relajación y cuidado personal",
+          "color": "#4ECDC4",
+          "postCount": 1
+        },
+        {
+          "id": "turismo",
+          "name": "Turismo",
+          "description": "Guías y recomendaciones para explorar Cali y sus alrededores",
+          "color": "#45B7D1",
+          "postCount": 1
+        },
+        {
+          "id": "eventos",
+          "name": "Eventos",
+          "description": "Información sobre nuestros espacios y servicios para eventos",
+          "color": "#F7B731",
+          "postCount": 1
+        },
+        {
+          "id": "sostenibilidad",
+          "name": "Sostenibilidad",
+          "description": "Nuestro compromiso con el medio ambiente y turismo responsable",
+          "color": "#26de81",
+          "postCount": 1
+        }
+      ],
+      "settings": {
+        "postsPerPage": 6,
+        "featuredPostsCount": 3,
+        "enableComments": false,
+        "enableNewsletter": true,
+        "socialSharing": true
+      }
+    }
+  }

@@ -1,0 +1,42 @@
+{
+    "contact": {
+      "hotel": {
+        "name": "Hotel Elegance",
+        "address": {
+          "street": "Carrera 15 #85-32",
+          "neighborhood": "Zona Rosa",
+          "city": "Cali",
+          "state": "Valle del Cauca",
+          "country": "Colombia",
+          "zipCode": "760042"
+        },
+        "coordinates": {
+          "lat": 3.451647,
+          "lng": -76.531985
+        }
+      },
+      "phone": {
+        "main": "+57 2 555-0123",
+        "reservations": "+57 2 555-0124",
+        "whatsapp": "+57 310 555-0125"
+      },
+      "email": {
+        "general": "info@hotelelegance.com",
+        "reservations": "reservas@hotelelegance.com",
+        "events": "eventos@hotelelegance.com"
+      },
+      "social": {
+        "facebook": "https://facebook.com/hotelelegance",
+        "instagram": "https://instagram.com/hotelelegance",
+        "twitter": "https://twitter.com/hotelelegance",
+        "youtube": "https://youtube.com/hotelelegance"
+      },
+      "hours": {
+        "reception": "24 horas",
+        "restaurant": "6:00 AM - 11:00 PM",
+        "spa": "8:00 AM - 8:00 PM",
+        "gym": "24 horas",
+        "pool": "6:00 AM - 10:00 PM"
+      }
+    }
+  }

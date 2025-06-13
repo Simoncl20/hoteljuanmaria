@@ -1,0 +1,103 @@
+{
+    "about": {
+      "hero": {
+        "title": "Sobre Hotel Elegance",
+        "subtitle": "Una tradición de excelencia y hospitalidad desde 1985",
+        "backgroundImage": "/images/about/about-hero.jpg"
+      },
+      "story": {
+        "title": "Nuestra Historia",
+        "content": "Hotel Elegance nació del sueño de crear un oasis de lujo y tranquilidad en el corazón de Tuluá. Desde nuestros inicios en 1985, nos hemos dedicado a ofrecer experiencias únicas que combinan la calidez colombiana con estándares internacionales de calidad.",
+        "highlights": [
+          "Más de 35 años de experiencia en hospitalidad",
+          "Reconocido como el mejor hotel boutique de Tuluá",
+          "Certificación de sostenibilidad ambiental",
+          "Más de 50,000 huéspedes satisfechos"
+        ]
+      },
+      "mission": {
+        "title": "Nuestra Misión",
+        "content": "Crear experiencias memorables para nuestros huéspedes a través de un servicio excepcional, instalaciones de primera clase y una atención personalizada que supere todas las expectativas."
+      },
+      "vision": {
+        "title": "Nuestra Visión",
+        "content": "Ser reconocidos como el hotel de lujo líder en Colombia, estableciendo nuevos estándares en hospitalidad y siendo un referente de excelencia en la industria hotelera."
+      },
+      "values": [
+        {
+          "title": "Excelencia",
+          "description": "Buscamos la perfección en cada detalle de nuestro servicio",
+          "icon": "star"
+        },
+        {
+          "title": "Hospitalidad",
+          "description": "Tratamos a cada huésped como parte de nuestra familia",
+          "icon": "heart"
+        },
+        {
+          "title": "Sostenibilidad",
+          "description": "Comprometidos con el cuidado del medio ambiente",
+          "icon": "leaf"
+        },
+        {
+          "title": "Innovación",
+          "description": "Constantemente mejoramos nuestros servicios y tecnología",
+          "icon": "lightbulb"
+        }
+      ],
+      "team": [
+        {
+          "name": "Carlos Mendoza",
+          "position": "Director General",
+          "bio": "Con más de 20 años en la industria hotelera, Carlos lidera nuestro equipo con pasión y dedicación.",
+          "image": "/images/team/carlos-mendoza.jpg"
+        },
+        {
+          "name": "Ana Patricia Ruiz",
+          "position": "Gerente de Operaciones",
+          "bio": "Experta en operaciones hoteleras, Ana asegura que cada proceso funcione a la perfección.",
+          "image": "/images/team/ana-ruiz.jpg"
+        },
+        {
+          "name": "Miguel Ángel Torres",
+          "position": "Chef Ejecutivo",
+          "bio": "Reconocido chef internacional que ha llevado nuestra gastronomía a otro nivel.",
+          "image": "/images/team/miguel-torres.jpg"
+        },
+        {
+          "name": "Laura Jiménez",
+          "position": "Gerente de Experiencia al Cliente",
+          "bio": "Especialista en crear experiencias únicas y memorables para nuestros huéspedes.",
+          "image": "/images/team/laura-jimenez.jpg"
+        }
+      ],
+      "awards": [
+        {
+          "year": "2024",
+          "title": "Mejor Hotel Boutique de Colombia",
+          "organization": "Travel Awards Colombia"
+        },
+        {
+          "year": "2023",
+          "title": "Certificación de Excelencia",
+          "organization": "TripAdvisor"
+        },
+        {
+          "year": "2023",
+          "title": "Hotel Sostenible del Año",
+          "organization": "Green Hotel Association"
+        },
+        {
+          "year": "2022",
+          "title": "Mejor Servicio al Cliente",
+          "organization": "Hospitality Excellence Awards"
+        }
+      ],
+      "stats": {
+        "yearsOfExperience": 39,
+        "satisfiedGuests": 52000,
+        "teamMembers": 85,
+        "sustainabilityScore": 96
+      }
+    }
+  }

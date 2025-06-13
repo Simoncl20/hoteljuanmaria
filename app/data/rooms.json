@@ -1,0 +1,171 @@
+{
+    "rooms": [
+      {
+        "id": 1,
+        "title": "Suite Presidencial",
+        "description": "Una experiencia de lujo incomparable con vista panorámica a la ciudad y servicios exclusivos las 24 horas",
+        "price": 850000,
+        "currency": "COP",
+        "images": [
+          "/images/Habitacion1.jpg",
+          "/images/Habitacion1-2.jpg",
+          "/images/Habitacion1-3.jpg"
+        ],
+        "featuredImage": "/images/Habitacion1.jpg",
+        "amenities": [
+          "WiFi gratuito",
+          "Aire acondicionado",
+          "Minibar premium",
+          "TV 65 pulgadas",
+          "Jacuzzi privado",
+          "Balcón con vista panorámica",
+          "Servicio a la habitación 24h",
+          "Mayordomo personal"
+        ],
+        "capacity": 4,
+        "size": "120m²",
+        "bedType": "King Size",
+        "available": true,
+        "featured": true
+      },
+      {
+        "id": 2,
+        "title": "Suite Ejecutiva Premier",
+        "description": "Perfecta para viajeros de negocios exigentes, combina elegancia y funcionalidad en espacios amplios",
+        "price": 620000,
+        "currency": "COP",
+        "images": [
+          "/images/Habitacion2.jpg",
+          "/images/Habitacion2-2.jpg",
+          "/images/Habitacion2-3.jpg"
+        ],
+        "featuredImage": "/images/Habitacion2.jpg",
+        "amenities": [
+          "WiFi gratuito",
+          "Aire acondicionado",
+          "Escritorio ejecutivo",
+          "TV 55 pulgadas",
+          "Cafetera premium",
+          "Caja fuerte",
+          "Área de trabajo",
+          "Minibar"
+        ],
+        "capacity": 2,
+        "size": "65m²",
+        "bedType": "Queen Size",
+        "available": true,
+        "featured": true
+      },
+      {
+        "id": 3,
+        "title": "Suite Four Seasons",
+        "description": "Decoración ultra elegante con amplias salas de estar y abundante luz natural para una estadía inolvidable",
+        "price": 780000,
+        "currency": "COP",
+        "images": [
+          "/images/Habitacion3.jpg",
+          "/images/Habitacion3-2.jpg",
+          "/images/Habitacion3-3.jpg"
+        ],
+        "featuredImage": "/images/Habitacion3.jpg",
+        "amenities": [
+          "WiFi gratuito",
+          "Aire acondicionado",
+          "Sala de estar amplia",
+          "TV 60 pulgadas",
+          "Minibar premium",
+          "Balcón privado",
+          "Baño de mármol",
+          "Servicio de concierge"
+        ],
+        "capacity": 3,
+        "size": "85m²",
+        "bedType": "King Size",
+        "available": true,
+        "featured": true
+      },
+      {
+        "id": 4,
+        "title": "Penthouse Suite",
+        "description": "La máxima expresión del lujo con terraza privada, chimenea de leña y sábanas de algodón egipcio premium",
+        "price": 1200000,
+        "currency": "COP",
+        "images": [
+          "/images/Habitacion4.jpg",
+          "/images/Habitacion4-2.jpg",
+          "/images/Habitacion4-3.jpg"
+        ],
+        "featuredImage": "/images/Habitacion4.jpg",
+        "amenities": [
+          "WiFi gratuito",
+          "Aire acondicionado",
+          "Terraza privada",
+          "Chimenea de leña",
+          "TV 75 pulgadas",
+          "Jacuzzi en terraza",
+          "Bar privado",
+          "Servicio de mayordomo",
+          "Vista panorámica 360°"
+        ],
+        "capacity": 6,
+        "size": "200m²",
+        "bedType": "2 King Size",
+        "available": true,
+        "featured": true
+      },
+      {
+        "id": 5,
+        "title": "Habitación Deluxe",
+        "description": "Comodidad y elegancia en perfecta armonía, con pisos de madera y ventanales que enmarcan vistas espectaculares",
+        "price": 380000,
+        "currency": "COP",
+        "images": [
+          "/images/Habitacion5.jpg",
+          "/images/Habitacion5-2.jpg"
+        ],
+        "featuredImage": "/images/Habitacion5.jpg",
+        "amenities": [
+          "WiFi gratuito",
+          "Aire acondicionado",
+          "TV 50 pulgadas",
+          "Minibar",
+          "Escritorio",
+          "Baño de mármol",
+          "Vista a la ciudad"
+        ],
+        "capacity": 2,
+        "size": "45m²",
+        "bedType": "Queen Size",
+        "available": true,
+        "featured": false
+      },
+      {
+        "id": 6,
+        "title": "Habitación Familiar",
+        "description": "Espaciosa habitación ideal para familias con todas las comodidades necesarias y área de juegos",
+        "price": 520000,
+        "currency": "COP",
+        "images": [
+          "/images/Habitacion6.jpg",
+          "/images/Habitacion6-2.jpg",
+          "/images/Habitacion6-3.jpg"
+        ],
+        "featuredImage": "/images/Habitacion6.jpg",
+        "amenities": [
+          "WiFi gratuito",
+          "Aire acondicionado",
+          "TV 55 pulgadas",
+          "Minibar",
+          "Área de juegos para niños",
+          "Balcón",
+          "Baño familiar",
+          "Camas adicionales"
+        ],
+        "capacity": 6,
+        "size": "75m²",
+        "bedType": "2 Queen Size",
+        "available": true,
+        "featured": true
+      }
+    ]
+  }

@@ -1,0 +1,76 @@
+{
+    "services": [
+      {
+        "id": 1,
+        "title": "Restaurante Gourmet",
+        "description": "Deléitate con nuestra exquisita cocina internacional y local preparada por chefs expertos",
+        "icon": "restaurant",
+        "image": "/images/services/restaurant.jpg",
+        "hours": "6:00 AM - 11:00 PM",
+        "featured": true
+      },
+      {
+        "id": 2,
+        "title": "Spa y Bienestar",
+        "description": "Relájate y rejuvenece en nuestro spa de clase mundial con tratamientos personalizados",
+        "icon": "spa",
+        "image": "/images/services/spa.jpg",
+        "hours": "8:00 AM - 8:00 PM",
+        "featured": true
+      },
+      {
+        "id": 3,
+        "title": "Piscina Infinity",
+        "description": "Disfruta de nuestra piscina infinita con vista espectacular mientras te refrescas",
+        "icon": "pool",
+        "image": "/images/services/pool.jpg",
+        "hours": "6:00 AM - 10:00 PM",
+        "featured": true
+      },
+      {
+        "id": 4,
+        "title": "Gimnasio 24h",
+        "description": "Mantén tu rutina de ejercicios en nuestro gimnasio completamente equipado",
+        "icon": "fitness",
+        "image": "/images/services/gym.jpg",
+        "hours": "24 horas",
+        "featured": false
+      },
+      {
+        "id": 5,
+        "title": "Centro de Negocios",
+        "description": "Espacios completamente equipados para tus reuniones y eventos corporativos",
+        "icon": "business",
+        "image": "/images/services/business.jpg",
+        "hours": "6:00 AM - 10:00 PM",
+        "featured": false
+      },
+      {
+        "id": 6,
+        "title": "Servicio de Concierge",
+        "description": "Nuestro equipo está disponible para ayudarte con reservas, tours y recomendaciones",
+        "icon": "concierge",
+        "image": "/images/services/concierge.jpg",
+        "hours": "24 horas",
+        "featured": false
+      },
+      {
+        "id": 7,
+        "title": "Transporte VIP",
+        "description": "Servicio de transporte exclusivo desde y hacia el aeropuerto",
+        "icon": "transport",
+        "image": "/images/services/transport.jpg",
+        "hours": "24 horas",
+        "featured": false
+      },
+      {
+        "id": 8,
+        "title": "Bar Lounge",
+        "description": "Ambiente sofisticado para disfrutar de cócteles premium y música en vivo",
+        "icon": "bar",
+        "image": "/images/services/bar.jpg",
+        "hours": "4:00 PM - 2:00 AM",
+        "featured": true
+      }
+    ]
+  }
