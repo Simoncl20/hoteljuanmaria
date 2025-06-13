@@ -1,4 +1,5 @@
 import type { Config } from "tailwindcss";
+import type { PluginAPI } from 'tailwindcss/types/config';
 
 export default {
   content: [
@@ -17,8 +18,23 @@ export default {
       colors: {
         background: "var(--background)",
         foreground: "var(--foreground)",
+        'selection': '#6b7280', // gray-500
       },
     },
   },
-  plugins: [require('tailwind-scrollbar-hide')],
+  plugins: [
+    require('tailwind-scrollbar-hide'),
+    function({ addUtilities }: PluginAPI) {
+      addUtilities({
+        '::selection': {
+          'background-color': '#6b7280',
+          'color': 'white',
+        },
+        '::-moz-selection': {
+          'background-color': '#6b7280',
+          'color': 'white',
+        },
+      })
+    }
+  ],
 } satisfies Config;

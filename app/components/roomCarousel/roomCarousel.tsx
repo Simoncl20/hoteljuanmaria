@@ -120,7 +120,7 @@ const RoomCarousel = () => {
 
   // Función para corregir la ruta de la imagen
   const getImagePath = (imagePath: string) => {
-    return imagePath.replace('/images/', '/').replace('.jpg', '.jpeg');
+    return imagePath.replace('/', '/').replace('.jpeg', '.jpeg');
   };
 
   if (loading) {

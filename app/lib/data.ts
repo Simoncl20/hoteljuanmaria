@@ -94,6 +94,8 @@ export async function getFeaturedRooms(): Promise<Room[]> {
 }
 
 export async function getRoomById(id: number): Promise<Room | null> {
+  // Simula delay de API
+  await new Promise(resolve => setTimeout(resolve, 100));
   const rooms = await getRooms();
   return rooms.find(room => room.id === id) || null;
 }

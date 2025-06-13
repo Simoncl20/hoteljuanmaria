@@ -66,7 +66,7 @@ const Footer = () => {
                 <p className="text-lg text-gray-700 font-medium mb-4">Donde el lujo se encuentra con la comodidad</p>
                 <p className="text-gray-600 leading-relaxed mb-6">
                   Creamos experiencias memorables que superan las expectativas, combinando hospitalidad auténtica 
-                  con instalaciones de clase mundial en el corazón de Cali.
+                  con instalaciones de clase mundial en el corazón de Tuluá.
                 </p>
                 
                 {/* Social media */}
