@@ -81,6 +81,54 @@ export interface BlogPost {
   };
 }
 
+export interface About {
+  hero: {
+    title: string;
+    subtitle: string;
+    backgroundImage: string;
+  };
+  story: {
+    title: string;
+    content: string;
+    highlights: string[];
+  };
+  heritage: {
+    title: string;
+    content: string;
+  };
+  mission: {
+    title: string;
+    content: string;
+  };
+  vision: {
+    title: string;
+    content: string;
+  };
+  values: Array<{
+    title: string;
+    description: string;
+    icon: string;
+  }>;
+  qualityPolicy: {
+    title: string;
+    content: string;
+  };
+  team: Array<{
+    name: string;
+    position: string;
+    bio: string;
+    image: string;
+  }>;
+  stats: {
+    yearsOfExperience: number;
+    satisfiedGuests: number;
+    teamMembers: number;
+    foundedYear: number;
+  };
+  panoramic: string;
+  images: string[];
+}
+
 // Funciones para obtener habitaciones
 export async function getRooms(): Promise<Room[]> {
   //  delay de API
@@ -187,7 +235,7 @@ export async function getBookingSettings() {
 }
 
 // Funciones para obtener información About Us
-export async function getAboutInfo() {
+export async function getAboutInfo(): Promise<About> {
   await new Promise(resolve => setTimeout(resolve, 100));
   return aboutData.about;
 }
@@ -202,9 +250,14 @@ export async function getCompanyValues() {
   return about.values;
 }
 
-export async function getAwards() {
+export async function getAboutPanoramic() {
   const about = await getAboutInfo();
-  return about.awards;
+  return about.panoramic;
+}
+
+export async function getAboutImages() {
+  const about = await getAboutInfo();
+  return about.images;
 }
 
 // Funciones para obtener posts del blog
