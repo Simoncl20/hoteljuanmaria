@@ -295,38 +295,20 @@ const RoomDetail = ({ roomId = 1 }) => {
               <X className="w-5 h-5" />
             </button>
 
-            {/* Botón navegación IZQUIERDA */}
+            {/* Botón navegación IZQUIERDA - Fijo en el lado izquierdo */}
             <button
               onClick={prevImage}
-              className="absolute left-6 top-1/2 -translate-y-1/2 z-20 relative font-semibold rounded-xl overflow-hidden transition-all duration-700 group p-5 hover:scale-110"
+              className="absolute left-6 top-1/2 -translate-y-1/2 z-20 bg-white/90 hover:bg-white rounded-xl p-5 hover:scale-110 transition-all duration-300 shadow-lg"
             >
-              <span className="relative z-10 flex items-center justify-center">
-                <ChevronLeft className="w-7 h-7 text-gray-800" />
-              </span>
-              <div className="absolute inset-0 bg-white/90"/>
-              <div className="absolute inset-0 bg-gradient-to-tr from-transparent via-gray-100/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700"/>
-              
-              <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-700">
-                <div className="absolute top-1 right-2 w-1 h-3 bg-gradient-to-b from-transparent via-gray-400/30 to-transparent rotate-45 animate-pulse"/>
-                <div className="absolute bottom-1 left-3 w-2 h-0.5 bg-gradient-to-r from-transparent via-gray-400/20 to-transparent animate-pulse" style={{animationDelay: '0.3s'}}/>
-              </div>
+              <ChevronLeft className="w-7 h-7 text-gray-800" />
             </button>
 
-            {/* Botón navegación DERECHA */}
+            {/* Botón navegación DERECHA - Fijo en el lado derecho */}
             <button
               onClick={nextImage}
-              className="absolute right-6 top-1/2 -translate-y-1/2 z-20 relative font-semibold rounded-xl overflow-hidden transition-all duration-700 group p-5 hover:scale-110"
+              className="absolute right-6 top-1/2 -translate-y-1/2 z-20 bg-white/90 hover:bg-white rounded-xl p-5 hover:scale-110 transition-all duration-300 shadow-lg"
             >
-              <span className="relative z-10 flex items-center justify-center">
-                <ChevronRight className="w-7 h-7 text-gray-800" />
-              </span>
-              <div className="absolute inset-0 bg-white/90"/>
-              <div className="absolute inset-0 bg-gradient-to-tr from-transparent via-gray-100/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700"/>
-              
-              <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-700">
-                <div className="absolute top-1 right-2 w-1 h-3 bg-gradient-to-b from-transparent via-gray-400/30 to-transparent rotate-45 animate-pulse"/>
-                <div className="absolute bottom-1 left-3 w-2 h-0.5 bg-gradient-to-r from-transparent via-gray-400/20 to-transparent animate-pulse" style={{animationDelay: '0.3s'}}/>
-              </div>
+              <ChevronRight className="w-7 h-7 text-gray-800" />
             </button>
 
             {/* Indicadores de imagen - Mejorados con navegación */}
