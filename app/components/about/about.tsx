@@ -150,7 +150,7 @@ const useCounterAnimation = (endValue: number, duration: number = 2000) => {
       transform: translateY(0);
       opacity: 1;
     }
-  }
+  }E
   
   .animate-slideIn {
     animation: slideIn 1000ms ease-out forwards;
@@ -705,7 +705,7 @@ const ImageStoryCard: React.FC<{
             <h3 className="font-serif text-2xl lg:text-3xl font-bold text-gray-900 mb-6 animate-textReveal">
               {title}
             </h3>
-            <p className="font-sans text-base lg:text-lg text-gray-700 leading-relaxed mb-8 animate-fadeInUp" style={{animationDelay: '0.3s'}}>
+            <p className="font-sans font-light text-base lg:text-lg text-gray-700 leading-relaxed mb-8 animate-fadeInUp" style={{animationDelay: '0.3s'}}>
               {description}
             </p>
             <div className="animate-fadeInUp" style={{animationDelay: '0.6s'}}>
@@ -802,7 +802,7 @@ export default function AboutPage(): JSX.Element {
   if (!aboutData) {
     return (
       <div className="min-h-screen bg-gradient-to-br from-gray-50 via-white to-gray-100 flex items-center justify-center">
-        <p className="font-sans text-lg text-gray-600">Error cargando la información</p>
+        <p className="font-sans font-light text-lg text-gray-600">Error cargando la información</p>
       </div>
     );
   }
@@ -844,7 +844,7 @@ export default function AboutPage(): JSX.Element {
             <h1 className="hero-title font-serif text-4xl md:text-6xl lg:text-7xl font-bold mb-6 transform transition-all duration-1000 translate-y-8 opacity-0 animate-fadeInUp">
               {aboutData.hero.title}
             </h1>
-            <p className="font-sans text-lg md:text-xl font-light text-white/90 mb-8 transform transition-all duration-1000 translate-y-8 opacity-0 animate-fadeInUp" style={{animationDelay: '0.3s'}}>
+            <p className="font-sans font-light text-lg md:text-xl font-light text-white/90 mb-8 transform transition-all duration-1000 translate-y-8 opacity-0 animate-fadeInUp" style={{animationDelay: '0.3s'}}>
               {aboutData.hero.subtitle}
             </p>
             
@@ -881,7 +881,7 @@ export default function AboutPage(): JSX.Element {
                   {aboutData.story.highlights.slice(0, 3).map((highlight, index) => (
                     <div key={index} className="flex items-start gap-3" data-stagger>
                       <div className="w-2 h-2 bg-gradient-to-r from-gray-800 to-gray-900 rounded-full mt-2 animate-scaleIn" style={{animationDelay: `${index * 0.2}s`}}/>
-                      <p className="font-sans text-sm text-gray-700">{highlight}</p>
+                      <p className="font-sans font-light text-sm text-gray-700">{highlight}</p>
                     </div>
                   ))}
                 </div>
@@ -976,7 +976,7 @@ export default function AboutPage(): JSX.Element {
                 </div>
                 <div>
                   <h3 className="font-sans font-semibold text-gray-900">Juan María Céspedes</h3>
-                  <p className="font-sans text-sm text-gray-600">Sacerdote, Científico y Patriota</p>
+                  <p className="font-sans font-light text-sm text-gray-600">Sacerdote, Científico y Patriota</p>
                 </div>
               </div>
             </div>
@@ -1008,7 +1008,7 @@ export default function AboutPage(): JSX.Element {
                       {aboutData.mission.title}
                     </h3>
                   </div>
-                  <p className="font-sans text-gray-700 leading-relaxed">
+                  <p className="font-sans font-light text-gray-700 leading-relaxed">
                     {aboutData.mission.content}
                   </p>
                 </div>
@@ -1022,7 +1022,7 @@ export default function AboutPage(): JSX.Element {
                       {aboutData.vision.title}
                     </h3>
                   </div>
-                  <p className="font-sans text-gray-700 leading-relaxed">
+                  <p className="font-sans font-light text-gray-700 leading-relaxed">
                     {aboutData.vision.content}
                   </p>
                 </div>
@@ -1066,7 +1066,7 @@ export default function AboutPage(): JSX.Element {
                       <h4 className="font-serif text-xl font-bold text-gray-900 mb-2 group-hover:text-gray-800 transition-colors duration-500">
                         Iluminando Sueños desde 1977
                       </h4>
-                      <p className="font-sans text-sm text-gray-600 group-hover:text-gray-700 transition-colors duration-500">
+                      <p className="font-sans font-light text-sm text-gray-600 group-hover:text-gray-700 transition-colors duration-500">
                         Cada noche, nuestro hotel se convierte en un faro de hospitalidad en Tuluá
                       </p>
                       
@@ -1088,7 +1088,7 @@ export default function AboutPage(): JSX.Element {
               <h2 className="font-serif text-3xl md:text-4xl font-bold text-gray-900 mb-8 animate-textReveal">
                 Nuestros Valores
               </h2>
-              <p className="font-sans text-lg text-gray-600 max-w-2xl mx-auto animate-fadeInUp" style={{animationDelay: '0.3s'}}>
+              <p className="font-sans font-light text-lg text-gray-600 max-w-2xl mx-auto animate-fadeInUp" style={{animationDelay: '0.3s'}}>
                 Los principios que guían cada decisión y cada servicio que brindamos
               </p>
             </div>
@@ -1111,7 +1111,7 @@ export default function AboutPage(): JSX.Element {
                     {value.title}
                   </h3>
                   
-                  <p className="font-sans text-sm text-gray-600 leading-relaxed animate-fadeInUp" style={{animationDelay: `${index * 0.2}s`}}>
+                  <p className="font-sans font-light text-sm text-gray-600 leading-relaxed animate-fadeInUp" style={{animationDelay: `${index * 0.2}s`}}>
                     {value.description}
                   </p>
                 </div>
@@ -1175,7 +1175,7 @@ export default function AboutPage(): JSX.Element {
                     {member.position}
                   </p>
                   
-                  <p className="font-sans text-xs text-gray-500 leading-relaxed animate-fadeInUp" style={{animationDelay: `${index * 0.16}s`}}>
+                  <p className="font-sans font-light text-xs text-gray-500 leading-relaxed animate-fadeInUp" style={{animationDelay: `${index * 0.16}s`}}>
                     {member.bio.slice(0, 80)}...
                   </p>
                 </div>
