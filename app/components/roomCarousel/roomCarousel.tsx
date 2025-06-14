@@ -173,7 +173,7 @@ const RoomCarousel = () => {
           Nuestras Habitaciones
         </h1>
         <p 
-          className={`font-sans text-lg text-gray-600 max-w-2xl mx-auto transform transition-all duration-1000 ${
+          className={`font-sans font-light text-lg text-gray-600 max-w-2xl mx-auto transform transition-all duration-1000 ${
             isLoaded ? 'translate-y-0 opacity-100' : 'translate-y-4 opacity-0'
           }`}
           style={{ animationDelay: '0.2s' }}
@@ -227,7 +227,7 @@ const RoomCarousel = () => {
                     {rooms[(currentIndex - 1 + rooms.length) % rooms.length].title}
                   </h3>
                   
-                  <p className="font-sans text-xs text-gray-600 leading-relaxed mb-4 group-hover:text-gray-700 transition-colors duration-300 line-clamp-2">
+                  <p className="font-sans font-light text-xs text-gray-600 leading-relaxed mb-4 group-hover:text-gray-700 transition-colors duration-300 line-clamp-2">
                     {rooms[(currentIndex - 1 + rooms.length) % rooms.length].description}
                   </p>
 
@@ -279,7 +279,7 @@ const RoomCarousel = () => {
                     {rooms[currentIndex].title}
                   </h3>
                   
-                  <p className="font-sans text-sm text-gray-600 leading-relaxed mb-4 group-hover:text-gray-700 transition-colors duration-300 line-clamp-2">
+                  <p className="font-sans font-light text-sm text-gray-600 leading-relaxed mb-4 group-hover:text-gray-700 transition-colors duration-300 line-clamp-2">
                     {rooms[currentIndex].description}
                   </p>
 
@@ -337,7 +337,7 @@ const RoomCarousel = () => {
                     {rooms[(currentIndex + 1) % rooms.length].title}
                   </h3>
                   
-                  <p className="font-sans text-sm text-gray-600 leading-relaxed mb-6 group-hover:text-gray-700 transition-colors duration-300 line-clamp-3">
+                  <p className="font-sans font-light text-sm text-gray-600 leading-relaxed mb-6 group-hover:text-gray-700 transition-colors duration-300 line-clamp-3">
                     {rooms[(currentIndex + 1) % rooms.length].description}
                   </p>
 

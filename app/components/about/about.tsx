@@ -3,6 +3,7 @@
 import React, { useState, useEffect, useRef, JSX } from 'react';
 import { Shield, Heart, Users, TrendingUp, MapPin, Phone, Mail, Star, Calendar, Award } from 'lucide-react';
 import { getAboutInfo } from '../../lib/data';
+import HistoryTimeline from '../historyTimeline/historyTimeline';
 
 // Tipos para TypeScript
 interface Value {
@@ -848,8 +849,16 @@ export default function AboutPage(): JSX.Element {
               {aboutData.hero.subtitle}
             </p>
             
-            <div className="transform transition-all duration-1000 translate-y-8 opacity-0 animate-fadeInUp" style={{animationDelay: '0.6s'}}>
-              <PremiumButton showIndicator>
+            <div className="transform transition-all duration-1000 translate-y-8 opacity-0 animate-fadeInUp" style={{animationDelay: '0.6s'}}>           
+              <PremiumButton 
+                showIndicator
+                onClick={() => {
+                  const element = document.getElementById('nuestra-historia-section');
+                  if (element) {
+                    element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                  }
+                }}
+              >
                 Conoce Nuestra Historia
               </PremiumButton>
             </div>
@@ -864,8 +873,8 @@ export default function AboutPage(): JSX.Element {
         </section>
 
         {/* Historia con transiciones mejoradas */}
-        <section className="py-24 px-6 section-transition" data-reveal>
-          <div className="max-w-7xl mx-auto">
+        <section id="nuestra-historia-section" className="py-24 px-6 section-transition" data-reveal>
+        <div className="max-w-7xl mx-auto">
             <div className="mb-16">
               <ImageStoryCard
                 src={aboutData.images[0]}
@@ -885,7 +894,15 @@ export default function AboutPage(): JSX.Element {
                     </div>
                   ))}
                 </div>
-                <LiquidButton variant="secondary">
+                <LiquidButton 
+                  variant="secondary"
+                  onClick={() => {
+                    const element = document.getElementById('timeline-section');
+                    if (element) {
+                      element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    }
+                  }}
+                >
                   Ver Línea de Tiempo
                 </LiquidButton>
               </ImageStoryCard>
@@ -1183,6 +1200,11 @@ export default function AboutPage(): JSX.Element {
             </div>
           </div>
         </section>
+
+        <div id="timeline-section">
+          <HistoryTimeline />
+        </div>
+
 
        {/* Estadísticas con contadores animados */}
        <section className="py-24 px-6 section-transition" data-reveal>

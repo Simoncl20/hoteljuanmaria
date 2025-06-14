@@ -83,7 +83,7 @@ const HeroSection = () => {
           </h1>
           
           <p 
-            className={`text-lg md:text-xl lg:text-2xl text-gray-200 font-light max-w-2xl mx-auto transform transition-all duration-1000 ${
+            className={`font-sans text-lg md:text-xl lg:text-2xl text-gray-200 font-light max-w-2xl mx-auto transform transition-all duration-1000 ${
               isLoaded ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'
             }`}
             style={{ animationDelay: '0.6s' }}

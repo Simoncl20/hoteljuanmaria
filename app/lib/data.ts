@@ -1,4 +1,4 @@
-// backend"simulado
+// backend simulado
 
 import roomsData from '../data/rooms.json';
 import servicesData from '../data/services.json';
@@ -9,8 +9,9 @@ import settingsData from '../data/settings.json';
 import aboutData from '../data/about.json';
 import blogData from '../data/blog.json';
 import pagesData from '../data/pages.json';
+import historyData from '../data/history.json';
 
-// Tipos 
+// Tipos existentes
 export interface Room {
   id: number;
   title: string;
@@ -129,7 +130,61 @@ export interface About {
   images: string[];
 }
 
-// Funciones para obtener habitaciones
+// Nuevos tipos para History
+export interface TimelineEvent {
+  id: number;
+  year: number;
+  date?: string;
+  yearRange?: string;
+  title: string;
+  description: string;
+  type: 'legal' | 'hito' | 'crecimiento' | 'modernizacion' | 'cultural' | 'aniversario' | 'actual';
+  importance: 'alto' | 'medio' | 'bajo';
+  icon: string;
+}
+
+export interface KeyFigure {
+  id: number;
+  name: string;
+  role: string;
+  description: string;
+  period: string;
+  legacy: string;
+  image: string;
+}
+
+export interface Anniversary {
+  year: number;
+  anniversary: number;
+  significance: string;
+}
+
+export interface HistoryMilestones {
+  founding: {
+    legalDate: string;
+    openingDate: string;
+    foundingEvent: string;
+  };
+  anniversaries: Anniversary[];
+}
+
+export interface HistoryStats {
+  foundedYear: number;
+  openedYear: number;
+  yearsInService: number;
+  legalAnniversary: number;
+  operationalAnniversary: number;
+}
+
+export interface History {
+  timeline: TimelineEvent[];
+  keyFigures: KeyFigure[];
+  milestones: HistoryMilestones;
+  notes: string[];
+  stats: HistoryStats;
+}
+
+// Funciones existentes para obtener habitaciones
 export async function getRooms(): Promise<Room[]> {
   //  delay de API
   await new Promise(resolve => setTimeout(resolve, 100));
@@ -307,6 +362,253 @@ export async function getTermsAndConditions() {
 export async function getFAQ() {
   await new Promise(resolve => setTimeout(resolve, 50));
   return pagesData.pages.faq;
+}
+
+// Helper functions to map Spanish properties to English
+function mapSpanishTypeToEnglish(tipo: string): 'legal' | 'hito' | 'crecimiento' | 'modernizacion' | 'cultural' | 'aniversario' | 'actual' {
+  const typeMap: { [key: string]: any } = {
+    'legal': 'legal',
+    'hito': 'hito',
+    'crecimiento': 'crecimiento',
+    'modernizacion': 'modernizacion',
+    'cultural': 'cultural',
+    'aniversario': 'aniversario',
+    'actual': 'actual'
+  };
+  return typeMap[tipo] || 'hito';
+}
+
+function mapSpanishImportanceToEnglish(importancia: string): 'alto' | 'medio' | 'bajo' {
+  const importanceMap: { [key: string]: any } = {
+    'alto': 'alto',
+    'medio': 'medio',
+    'bajo': 'bajo'
+  };
+  return importanceMap[importancia] || 'medio';
+}
+
+// NUEVAS FUNCIONES PARA HISTORIA - FIXED VERSION
+export async function getHistoryInfo(): Promise<History> {
+  await new Promise(resolve => setTimeout(resolve, 100));
+  // Fix: Access the historia property directly from historyData
+  return {
+    timeline: (historyData as any).historia.cronologia.map((item: any) => ({
+      id: item.id,
+      year: item.año,
+      date: item.fecha,
+      yearRange: item.rangoAños,
+      title: item.titulo,
+      description: item.descripcion,
+      type: mapSpanishTypeToEnglish(item.tipo),
+      importance: mapSpanishImportanceToEnglish(item.importancia),
+      icon: item.icono
+    })),
+    keyFigures: (historyData as any).historia.figurasClave?.map((figure: any) => ({
+      id: figure.id,
+      name: figure.nombre,
+      role: figure.cargo,
+      description: figure.descripcion,
+      period: figure.periodo,
+      legacy: figure.legado,
+      image: figure.imagen
+    })) || [],
+    milestones: {
+      founding: {
+        legalDate: (historyData as any).historia.hitos.fundacion.fechaLegal,
+        openingDate: (historyData as any).historia.hitos.fundacion.fechaApertura,
+        foundingEvent: (historyData as any).historia.hitos.fundacion.eventoFundacion
+      },
+      anniversaries: (historyData as any).historia.hitos.aniversarios.map((ann: any) => ({
+        year: ann.año,
+        anniversary: ann.aniversario,
+        significance: ann.significado
+      }))
+    },
+    notes: (historyData as any).historia.notas || [],
+    stats: {
+      foundedYear: (historyData as any).historia.estadisticas.añoFundacion,
+      openedYear: (historyData as any).historia.estadisticas.añoApertura,
+      yearsInService: (historyData as any).historia.estadisticas.añosEnServicio,
+      legalAnniversary: (historyData as any).historia.estadisticas.aniversarioLegal,
+      operationalAnniversary: (historyData as any).historia.estadisticas.aniversarioOperacional
+    }
+  };
+}
+
+export async function getTimeline(): Promise<TimelineEvent[]> {
+  try {
+    const history = await getHistoryInfo();
+    return history.timeline.sort((a, b) => a.year - b.year);
+  } catch (error) {
+    console.error('Error in getTimeline:', error);
+    return [];
+  }
+}
+
+export async function getTimelineByType(type: TimelineEvent['type']): Promise<TimelineEvent[]> {
+  try {
+    const timeline = await getTimeline();
+    return timeline.filter(event => event.type === type);
+  } catch (error) {
+    console.error('Error in getTimelineByType:', error);
+    return [];
+  }
+}
+
+export async function getMajorMilestones(): Promise<TimelineEvent[]> {
+  try {
+    const timeline = await getTimeline();
+    return timeline.filter(event => event.importance === 'alto');
+  } catch (error) {
+    console.error('Error in getMajorMilestones:', error);
+    return [];
+  }
+}
+
+export async function getKeyFigures(): Promise<KeyFigure[]> {
+  try {
+    const history = await getHistoryInfo();
+    return history.keyFigures;
+  } catch (error) {
+    console.error('Error in getKeyFigures:', error);
+    return [];
+  }
+}
+
+export async function getKeyFigureByName(name: string): Promise<KeyFigure | null> {
+  try {
+    const figures = await getKeyFigures();
+    return figures.find(figure => 
+      figure.name.toLowerCase().includes(name.toLowerCase())
+    ) || null;
+  } catch (error) {
+    console.error('Error in getKeyFigureByName:', error);
+    return null;
+  }
+}
+
+export async function getHistoryMilestones(): Promise<HistoryMilestones> {
+  try {
+    const history = await getHistoryInfo();
+    return history.milestones;
+  } catch (error) {
+    console.error('Error in getHistoryMilestones:', error);
+    throw error;
+  }
+}
+
+export async function getHistoryStats(): Promise<HistoryStats> {
+  try {
+    const history = await getHistoryInfo();
+    return history.stats;
+  } catch (error) {
+    console.error('Error in getHistoryStats:', error);
+    throw error;
+  }
+}
+
+export async function getFoundingInfo() {
+  try {
+    const milestones = await getHistoryMilestones();
+    return milestones.founding;
+  } catch (error) {
+    console.error('Error in getFoundingInfo:', error);
+    return null;
+  }
+}
+
+export async function getAnniversaries(): Promise<Anniversary[]> {
+  try {
+    const milestones = await getHistoryMilestones();
+    return milestones.anniversaries.sort((a, b) => b.year - a.year);
+  } catch (error) {
+    console.error('Error in getAnniversaries:', error);
+    return [];
+  }
+}
+
+export async function getCurrentAnniversary(): Promise<Anniversary | null> {
+  try {
+    const anniversaries = await getAnniversaries();
+    const currentYear = new Date().getFullYear();
+    return anniversaries.find(anniversary => anniversary.year <= currentYear) || null;
+  } catch (error) {
+    console.error('Error in getCurrentAnniversary:', error);
+    return null;
+  }
+}
+
+export async function getHistoryNotes(): Promise<string[]> {
+  try {
+    const history = await getHistoryInfo();
+    return history.notes;
+  } catch (error) {
+    console.error('Error in getHistoryNotes:', error);
+    return [];
+  }
+}
+
+export async function getTimelineEventById(id: number): Promise<TimelineEvent | null> {
+  try {
+    const timeline = await getTimeline();
+    return timeline.find(event => event.id === id) || null;
+  } catch (error) {
+    console.error('Error in getTimelineEventById:', error);
+    return null;
+  }
+}
+
+export async function getTimelineByDecade(decade: number): Promise<TimelineEvent[]> {
+  try {
+    const timeline = await getTimeline();
+    return timeline.filter(event => {
+      const eventDecade = Math.floor(event.year / 10) * 10;
+      return eventDecade === decade;
+    });
+  } catch (error) {
+    console.error('Error in getTimelineByDecade:', error);
+    return [];
+  }
+}
+
+export async function getTimelineByYearRange(startYear: number, endYear: number): Promise<TimelineEvent[]> {
+  try {
+    const timeline = await getTimeline();
+    return timeline.filter(event => event.year >= startYear && event.year <= endYear);
+  } catch (error) {
+    console.error('Error in getTimelineByYearRange:', error);
+    return [];
+  }
+}
+
+// Función para obtener años de servicio actualizado
+export async function getYearsOfService(): Promise<number> {
+  try {
+    const stats = await getHistoryStats();
+    const currentYear = new Date().getFullYear();
+    return currentYear - stats.openedYear + 1;
+  } catch (error) {
+    console.error('Error in getYearsOfService:', error);
+    return 0;
+  }
+}
+
+// Función para obtener el próximo aniversario
+export async function getNextAnniversary(): Promise<{year: number, anniversary: number}> {
+  try {
+    const stats = await getHistoryStats();
+    const currentYear = new Date().getFullYear();
+    const nextYear = currentYear + 1;
+    const nextAnniversary = nextYear - stats.openedYear + 1;
+    
+    return {
+      year: nextYear,
+      anniversary: nextAnniversary
+    };
+  } catch (error) {
+    console.error('Error in getNextAnniversary:', error);
+    return { year: 0, anniversary: 0 };
+  }
 }
 
 // Función de búsqueda en el blog
