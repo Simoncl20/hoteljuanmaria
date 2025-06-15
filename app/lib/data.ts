@@ -10,6 +10,7 @@ import aboutData from '../data/about.json';
 import blogData from '../data/blog.json';
 import pagesData from '../data/pages.json';
 import historyData from '../data/history.json';
+import hallsData from '../data/halls.json';
 
 // Tipos existentes
 export interface Room {
@@ -36,6 +37,26 @@ export interface Service {
   image: string;
   hours: string;
   featured: boolean;
+}
+
+// Nuevo tipo para halls
+export interface Hall {
+  id: number;
+  name: string;
+  size: number;
+  banquet: number | null;
+  classroom: number | null;
+  conference: number | null;
+  featured: boolean;
+  description: string;
+  amenities: string[];
+}
+
+export interface CapacityType {
+  key: string;
+  label: string;
+  icon: string;
+  description: string;
 }
 
 export interface GalleryImage {
@@ -130,7 +151,7 @@ export interface About {
   images: string[];
 }
 
-// Nuevos tipos para History
+// Tipos para History
 export interface TimelineEvent {
   id: number;
   year: number;
@@ -222,6 +243,122 @@ export async function getFeaturedServices(): Promise<Service[]> {
 export async function getServiceById(id: number): Promise<Service | null> {
   const services = await getServices();
   return services.find(service => service.id === id) || null;
+}
+
+// NUEVAS FUNCIONES PARA HALLS
+export async function getHalls(): Promise<Hall[]> {
+  await new Promise(resolve => setTimeout(resolve, 100));
+  return hallsData.halls;
+}
+
+export async function getFeaturedHalls(): Promise<Hall[]> {
+  const halls = await getHalls();
+  return halls.filter(hall => hall.featured);
+}
+
+export async function getHallById(id: number): Promise<Hall | null> {
+  const halls = await getHalls();
+  return halls.find(hall => hall.id === id) || null;
+}
+
+export async function getHallByName(name: string): Promise<Hall | null> {
+  const halls = await getHalls();
+  return halls.find(hall => 
+    hall.name.toLowerCase().includes(name.toLowerCase())
+  ) || null;
+}
+
+export async function getCapacityTypes(): Promise<CapacityType[]> {
+  await new Promise(resolve => setTimeout(resolve, 50));
+  return hallsData.capacityTypes;
+}
+
+export async function getHallsByCapacity(
+  capacityType: keyof Pick<Hall, 'banquet' | 'classroom' | 'conference'>,
+  minCapacity: number
+): Promise<Hall[]> {
+  const halls = await getHalls();
+  return halls.filter(hall => {
+    const capacity = hall[capacityType];
+    return capacity !== null && capacity >= minCapacity;
+  });
+}
+
+export async function getHallsBySize(minSize: number, maxSize?: number): Promise<Hall[]> {
+  const halls = await getHalls();
+  return halls.filter(hall => {
+    if (maxSize) {
+      return hall.size >= minSize && hall.size <= maxSize;
+    }
+    return hall.size >= minSize;
+  });
+}
+
+export async function getHallStats() {
+  const halls = await getHalls();
+  
+  const banquetCapacities = halls
+    .map(hall => hall.banquet)
+    .filter(capacity => capacity !== null) as number[];
+  
+  const classroomCapacities = halls
+    .map(hall => hall.classroom)
+    .filter(capacity => capacity !== null) as number[];
+  
+  const conferenceCapacities = halls
+    .map(hall => hall.conference)
+    .filter(capacity => capacity !== null) as number[];
+
+  return {
+    totalHalls: halls.length,
+    featuredHalls: halls.filter(hall => hall.featured).length,
+    averageSize: Math.round(halls.reduce((sum, hall) => sum + hall.size, 0) / halls.length),
+    maxSize: Math.max(...halls.map(hall => hall.size)),
+    minSize: Math.min(...halls.map(hall => hall.size)),
+    maxBanquetCapacity: banquetCapacities.length > 0 ? Math.max(...banquetCapacities) : 0,
+    maxClassroomCapacity: classroomCapacities.length > 0 ? Math.max(...classroomCapacities) : 0,
+    maxConferenceCapacity: conferenceCapacities.length > 0 ? Math.max(...conferenceCapacities) : 0,
+    hallsWithBanquet: banquetCapacities.length,
+    hallsWithClassroom: classroomCapacities.length,
+    hallsWithConference: conferenceCapacities.length
+  };
+}
+
+export async function getUniqueHallAmenities(): Promise<string[]> {
+  const halls = await getHalls();
+  const allAmenities = halls.flatMap(hall => hall.amenities);
+  return [...new Set(allAmenities)].sort();
+}
+
+export async function searchHalls(filters: {
+  minSize?: number;
+  maxSize?: number;
+  capacityType?: keyof Pick<Hall, 'banquet' | 'classroom' | 'conference'>;
+  minCapacity?: number;
+  amenities?: string[];
+}): Promise<Hall[]> {
+  const halls = await getHalls();
+  
+  return halls.filter(hall => {
+    if (filters.minSize && hall.size < filters.minSize) return false;
+    if (filters.maxSize && hall.size > filters.maxSize) return false;
+    
+    if (filters.capacityType && filters.minCapacity) {
+      const capacity = hall[filters.capacityType];
+      if (capacity === null || capacity < filters.minCapacity) return false;
+    }
+    
+    if (filters.amenities && filters.amenities.length > 0) {
+      const hasAllAmenities = filters.amenities.every(amenity => 
+        hall.amenities.some(hallAmenity => 
+          hallAmenity.toLowerCase().includes(amenity.toLowerCase())
+        )
+      );
+      if (!hasAllAmenities) return false;
+    }
+    
+    return true;
+  });
 }
 
 // Funciones para obtener galería

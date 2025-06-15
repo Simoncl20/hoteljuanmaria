@@ -1,76 +1,97 @@
 {
-    "services": [
-      {
-        "id": 1,
-        "title": "Restaurante Gourmet",
-        "description": "Deléitate con nuestra exquisita cocina internacional y local preparada por chefs expertos",
-        "icon": "restaurant",
-        "image": "/images/services/restaurant.jpg",
-        "hours": "6:00 AM - 11:00 PM",
-        "featured": true
-      },
-      {
-        "id": 2,
-        "title": "Spa y Bienestar",
-        "description": "Relájate y rejuvenece en nuestro spa de clase mundial con tratamientos personalizados",
-        "icon": "spa",
-        "image": "/images/services/spa.jpg",
-        "hours": "8:00 AM - 8:00 PM",
-        "featured": true
-      },
-      {
-        "id": 3,
-        "title": "Piscina Infinity",
-        "description": "Disfruta de nuestra piscina infinita con vista espectacular mientras te refrescas",
-        "icon": "pool",
-        "image": "/images/services/pool.jpg",
-        "hours": "6:00 AM - 10:00 PM",
-        "featured": true
-      },
-      {
-        "id": 4,
-        "title": "Gimnasio 24h",
-        "description": "Mantén tu rutina de ejercicios en nuestro gimnasio completamente equipado",
-        "icon": "fitness",
-        "image": "/images/services/gym.jpg",
-        "hours": "24 horas",
-        "featured": false
-      },
-      {
-        "id": 5,
-        "title": "Centro de Negocios",
-        "description": "Espacios completamente equipados para tus reuniones y eventos corporativos",
-        "icon": "business",
-        "image": "/images/services/business.jpg",
-        "hours": "6:00 AM - 10:00 PM",
-        "featured": false
-      },
-      {
-        "id": 6,
-        "title": "Servicio de Concierge",
-        "description": "Nuestro equipo está disponible para ayudarte con reservas, tours y recomendaciones",
-        "icon": "concierge",
-        "image": "/images/services/concierge.jpg",
-        "hours": "24 horas",
-        "featured": false
-      },
-      {
-        "id": 7,
-        "title": "Transporte VIP",
-        "description": "Servicio de transporte exclusivo desde y hacia el aeropuerto",
-        "icon": "transport",
-        "image": "/images/services/transport.jpg",
-        "hours": "24 horas",
-        "featured": false
-      },
-      {
-        "id": 8,
-        "title": "Bar Lounge",
-        "description": "Ambiente sofisticado para disfrutar de cócteles premium y música en vivo",
-        "icon": "bar",
-        "image": "/images/services/bar.jpg",
-        "hours": "4:00 PM - 2:00 AM",
-        "featured": true
-      }
-    ]
-  }
+  "services": [
+    {
+      "id": 1,
+      "title": "Restaurante Zamira",
+      "description": "En la comodidad de nuestro restaurante Zamira puedes encontrar Platos Nacionales e Internacionales y Menú diario con variedad de platos. Tenemos un espacio acogedor y tranquilo con la mejor atención para que tu experiencia sea placentera y agradable.",
+      "icon": "restaurant",
+      "image": "/images/services/restaurant.jpg",
+      "hours": "Lunes a Viernes: 6:30-10:00 AM, 12:00-2:30 PM, 6:30-9:00 PM | Sábado: 6:30 AM-2:30 PM | Domingo: 6:30-10:00 AM (solo desayuno)",
+      "capacity": "60 asientos",
+      "featured": true
+    },
+    {
+      "id": 2,
+      "title": "Salones para Eventos",
+      "description": "Contamos con cuatro (4) salones para eventos con capacidad de 15 a 120 personas, equipados con Ayudas Audiovisuales, Wi-Fi, Aire Acondicionado, Estación de Café y un excelente equipo listo para atenderte.",
+      "icon": "events",
+      "image": "/images/services/events.jpg",
+      "hours": "Según programación de eventos",
+      "halls": [
+        "Salón María Ximena",
+        "Salón Valeria", 
+        "Salón Andrés",
+        "Salón Rose"
+      ],
+      "capacity": "15 a 120 personas",
+      "featured": true
+    },
+    {
+      "id": 3,
+      "title": "Eventos Sociales",
+      "description": "Cubrimos todo tipo de eventos y reuniones sociales como bodas, graduaciones, cumpleaños, primeras comuniones y otros eventos especiales.",
+      "icon": "celebration",
+      "image": "/images/services/social-events.jpg",
+      "hours": "Según programación",
+      "services_included": [
+        "Instalación de mesas redondas con sillas vestidas para 8-10 personas",
+        "Almuerzo, cena o refrigerio según la hora del evento",
+        "Centros de mesa con flores",
+        "Torta Blanca o Negra",
+        "Brindis de copa",
+        "Descorche de licor",
+        "Servicio de meseros"
+      ],
+      "featured": true
+    },
+    {
+      "id": 4,
+      "title": "Eventos Corporativos",
+      "description": "Espacios ideales para reuniones de trabajo, desayunos laborales, almuerzos y cenas corporativas con el mejor servicio profesional.",
+      "icon": "business",
+      "image": "/images/services/corporate.jpg",
+      "hours": "Según programación",
+      "services_included": [
+        "Equipos audiovisuales",
+        "Conexión Wi-Fi",
+        "Aire acondicionado",
+        "Estación de café",
+        "Servicio de catering",
+        "Atención personalizada"
+      ],
+      "featured": false
+    },
+    {
+      "id": 5,
+      "title": "Cena Romántica",
+      "description": "Déjate cautivar por este gran plan para que disfrutes con esa persona especial. Proporcionamos esos detalles para hacer de ese día una ocasión para recordar.",
+      "icon": "romantic_dinner",
+      "image": "/images/services/romantic-dinner.jpg",
+      "hours": "Disponible en horarios de cena",
+      "services_included": [
+        "Cena para dos en el Balcón del Hotel",
+        "Ramo de Rosas",
+        "Botella de Vino Espumoso",
+        "Decoración especial"
+      ],
+      "featured": true
+    },
+    {
+      "id": 6,
+      "title": "Noche Romántica",
+      "description": "Déjate cautivar por este plan romántico, está disponible para bodas nocturnas, aniversarios y ocasiones especiales o como regalo de amor y amistad. Es una excelente opción para hacer de ese día especial una gran ocasión para recordar.",
+      "icon": "romantic_night",
+      "image": "/images/services/romantic-night.jpg",
+      "hours": "Disponible para ocasiones especiales",
+      "services_included": [
+        "Suite Master o Suite Junior",
+        "Ramo de Rosas",
+        "Botella de Vino Espumoso",
+        "Cena para dos",
+        "Desayuno",
+        "Decoración especial"
+      ],
+      "featured": true
+    }
+  ]
+}

@@ -1156,8 +1156,8 @@ export default function AboutPage(): JSX.Element {
           </div>
         </section>
 
-        {/* Equipo con efectos mejorados */}
-        <section className="py-24 px-6 bg-gradient-to-r from-gray-50 via-white to-gray-100 section-transition" data-reveal>
+     {/* Equipo con efectos mejorados */}
+     <section className="py-24 px-6 bg-gradient-to-r from-gray-50 via-white to-gray-100 section-transition" data-reveal>
           <div className="max-w-7xl mx-auto">
             <div className="text-center mb-16" data-stagger>
               <h2 className="font-serif text-3xl md:text-4xl font-bold text-gray-900 mb-8 animate-textReveal">
@@ -1169,7 +1169,7 @@ export default function AboutPage(): JSX.Element {
               {aboutData.team.map((member, index) => (
                 <div 
                   key={index}
-                  className="liquid-card rounded-2xl p-6 text-center cursor-pointer group animate-fadeInUp"
+                  className="liquid-card rounded-2xl p-6 text-center cursor-pointer group animate-fadeInUp h-full flex flex-col"
                   style={{animationDelay: `${index * 0.15}s`}}
                   onClick={() => setActiveTeamMember(index)}
                   data-stagger
@@ -1192,8 +1192,8 @@ export default function AboutPage(): JSX.Element {
                     {member.position}
                   </p>
                   
-                  <p className="font-sans font-light text-xs text-gray-500 leading-relaxed animate-fadeInUp" style={{animationDelay: `${index * 0.16}s`}}>
-                    {member.bio.slice(0, 80)}...
+                  <p className="font-sans font-light text-xs text-gray-500 leading-relaxed animate-fadeInUp flex-grow" style={{animationDelay: `${index * 0.16}s`}}>
+                    {member.bio}
                   </p>
                 </div>
               ))}
