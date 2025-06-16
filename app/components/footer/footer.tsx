@@ -42,7 +42,6 @@ const Footer = () => {
     { name: "Reservas", href: "/reservas" },
     { name: "Eventos", href: "/eventos" },
     { name: "FAQ", href: "/faq" },
-    { name: "Testimonios", href: "/testimonios" },
     { name: "Galería", href: "/galeria" }
   ];
 
@@ -174,8 +173,7 @@ const Footer = () => {
             <p>© 2025 Hotel Juan María. Todos los derechos reservados.</p>
             <div className="flex space-x-6 mt-4 sm:mt-0">
               <Link href="/privacy" className="hover:text-gray-900 transition-colors duration-300">Privacidad</Link>
-              <Link href="/terms" className="hover:text-gray-900 transition-colors duration-300">Términos</Link>
-              <Link href="/cookies" className="hover:text-gray-900 transition-colors duration-300">Cookies</Link>
+              <Link href="/terms" className="hover:text-gray-900 transition-colors duration-300">Términos y condiciones</Link>
             </div>
           </div>
         </div>
