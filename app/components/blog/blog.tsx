@@ -151,7 +151,7 @@ export default function BlogSection() {
                             {post.title}
                           </h2>
                           
-                          <p className="font-sans text-white/90 text-sm md:text-base lg:text-lg mb-4 lg:mb-6 line-clamp-3">
+                          <p className="font-sans font-light text-white/90 text-sm md:text-base lg:text-lg mb-4 lg:mb-6 line-clamp-3">
                             {post.excerpt}
                           </p>
                           
@@ -318,7 +318,7 @@ export default function BlogSection() {
                       </h3>
                       
                       {/* Excerpt - altura fija con line-clamp */}
-                      <p className="font-sans text-gray-600 text-sm mb-4 line-clamp-3 flex-grow h-16 overflow-hidden">
+                      <p className="font-sans font-light text-gray-600 text-sm mb-4 line-clamp-3 flex-grow h-16 overflow-hidden">
                         {post.excerpt}
                       </p>
                       
@@ -402,7 +402,7 @@ export default function BlogSection() {
               <h3 className="font-serif text-2xl font-bold text-gray-900 mb-4">
                 ¿Te gustaría recibir nuestras últimas historias?
               </h3>
-              <p className="font-sans text-gray-600 mb-6">
+              <p className="font-sans font-light text-gray-600 mb-6">
                 Suscríbete a nuestro newsletter y mantente al día con las experiencias exclusivas de Hotel Juan María.
               </p>
               
