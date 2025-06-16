@@ -26,6 +26,141 @@ interface BlogDetailProps {
   slug: string; // Este slug vendría de los parámetros de la URL
 }
 
+// Función para renderizar markdown básico
+const renderMarkdown = (content: string) => {
+  const lines = content.split('\n');
+  const elements: React.ReactNode[] = [];
+  let currentList: string[] = [];
+  let listType: 'ul' | 'ol' | null = null;
+
+  const flushList = () => {
+    if (currentList.length > 0) {
+      const ListComponent = listType === 'ol' ? 'ol' : 'ul';
+      const listClass = listType === 'ol' 
+        ? "list-decimal list-inside space-y-2 mb-6 ml-4" 
+        : "list-disc list-inside space-y-2 mb-6 ml-4";
+      
+      elements.push(
+        <ListComponent key={`list-${elements.length}`} className={listClass}>
+          {currentList.map((item, idx) => (
+            <li key={idx} className="font-sans text-gray-700 leading-relaxed">
+              {renderInlineMarkdown(item)}
+            </li>
+          ))}
+        </ListComponent>
+      );
+      currentList = [];
+      listType = null;
+    }
+  };
+
+  const renderInlineMarkdown = (text: string) => {
+    // Renderizar texto en negrita
+    text = text.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+    // Renderizar texto en cursiva
+    text = text.replace(/\*(.*?)\*/g, '<em>$1</em>');
+    // Renderizar enlaces
+    text = text.replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" class="text-blue-600 hover:text-blue-800 underline">$1</a>');
+    
+    return <span dangerouslySetInnerHTML={{ __html: text }} />;
+  };
+
+  lines.forEach((line, index) => {
+    const trimmedLine = line.trim();
+    
+    if (!trimmedLine) {
+      flushList();
+      return;
+    }
+
+    // Headers
+    if (trimmedLine.startsWith('# ')) {
+      flushList();
+      elements.push(
+        <h1 key={index} className="font-serif text-4xl font-bold text-gray-900 mt-8 mb-6 first:mt-0">
+          {trimmedLine.substring(2)}
+        </h1>
+      );
+    } else if (trimmedLine.startsWith('## ')) {
+      flushList();
+      elements.push(
+        <h2 key={index} className="font-serif text-3xl font-bold text-gray-900 mt-8 mb-4 first:mt-0">
+          {trimmedLine.substring(3)}
+        </h2>
+      );
+    } else if (trimmedLine.startsWith('### ')) {
+      flushList();
+      elements.push(
+        <h3 key={index} className="font-serif text-2xl font-bold text-gray-900 mt-6 mb-4 first:mt-0">
+          {trimmedLine.substring(4)}
+        </h3>
+      );
+    } else if (trimmedLine.startsWith('#### ')) {
+      flushList();
+      elements.push(
+        <h4 key={index} className="font-serif text-xl font-bold text-gray-900 mt-6 mb-3 first:mt-0">
+          {trimmedLine.substring(5)}
+        </h4>
+      );
+    }
+    // Títulos en negrita (formato alternativo **Título**)
+    else if (trimmedLine.startsWith('**') && trimmedLine.endsWith('**') && trimmedLine.length > 4) {
+      flushList();
+      elements.push(
+        <h3 key={index} className="font-serif text-2xl font-bold text-gray-900 mt-8 mb-4 first:mt-0">
+          {trimmedLine.replace(/\*\*/g, '')}
+        </h3>
+      );
+    }
+    // Listas desordenadas
+    else if (trimmedLine.startsWith('- ') || trimmedLine.startsWith('* ')) {
+      if (listType !== 'ul') {
+        flushList();
+        listType = 'ul';
+      }
+      currentList.push(trimmedLine.substring(2));
+    }
+    // Listas ordenadas
+    else if (/^\d+\.\s/.test(trimmedLine)) {
+      if (listType !== 'ol') {
+        flushList();
+        listType = 'ol';
+      }
+      currentList.push(trimmedLine.replace(/^\d+\.\s/, ''));
+    }
+    // Citas (blockquotes)
+    else if (trimmedLine.startsWith('> ')) {
+      flushList();
+      elements.push(
+        <blockquote key={index} className="border-l-4 border-gray-300 pl-4 italic text-gray-600 my-6 bg-gray-50 py-4 rounded-r-lg">
+          {renderInlineMarkdown(trimmedLine.substring(2))}
+        </blockquote>
+      );
+    }
+    // Líneas horizontales
+    else if (trimmedLine === '---' || trimmedLine === '***') {
+      flushList();
+      elements.push(
+        <hr key={index} className="my-8 border-gray-300" />
+      );
+    }
+    // Párrafos normales
+    else {
+      flushList();
+      elements.push(
+        <p key={index} className="font-sans text-gray-700 leading-relaxed mb-6">
+          {renderInlineMarkdown(trimmedLine)}
+        </p>
+      );
+    }
+  });
+
+  // Flush any remaining list
+  flushList();
+
+  return elements;
+};
+
 export default function BlogDetail({ slug }: BlogDetailProps) {
   const [post, setPost] = useState<BlogPost | null>(null);
   const [relatedPosts, setRelatedPosts] = useState<BlogPost[]>([]);
@@ -251,34 +386,8 @@ export default function BlogDetail({ slug }: BlogDetailProps) {
           {/* Article content */}
           <article className="relative bg-white/70 backdrop-blur-2xl rounded-xl shadow-2xl border border-white/20 p-8 md:p-12 mb-12">
             <div className="prose prose-lg max-w-none">
-              {/* Renderizar el contenido del post */}
-              {post.content.split('\n\n').map((paragraph, index) => {
-                if (paragraph.startsWith('**') && paragraph.endsWith('**')) {
-                  // Títulos en negrita
-                  return (
-                    <h3 key={index} className="font-serif text-2xl font-bold text-gray-900 mt-8 mb-4 first:mt-0">
-                      {paragraph.replace(/\*\*/g, '')}
-                    </h3>
-                  );
-                } else if (paragraph.startsWith('- ')) {
-                  // Lista
-                  return (
-                    <ul key={index} className="list-disc list-inside space-y-2 mb-6">
-                      <li className="font-sans text-gray-700 leading-relaxed">
-                        {paragraph.substring(2)}
-                      </li>
-                    </ul>
-                  );
-                } else if (paragraph.trim()) {
-                  // Párrafo normal
-                  return (
-                    <p key={index} className="font-sans text-gray-700 leading-relaxed mb-6">
-                      {paragraph}
-                    </p>
-                  );
-                }
-                return null;
-              })}
+              {/* Renderizar el contenido del post con soporte markdown mejorado */}
+              {renderMarkdown(post.content)}
             </div>
 
             {/* Tags */}

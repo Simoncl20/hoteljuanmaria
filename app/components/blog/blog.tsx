@@ -89,7 +89,7 @@ export default function BlogSection() {
                 Nuestro Blog
               </h1>
               <p className="font-sans text-lg md:text-xl font-light text-gray-600 mb-8 lg:mb-12">
-                Descubre historias, experiencias y secretos del lujo en Hotel Juan María. 
+                Descubre historias, experiencias y secretos en el blog del  Hotel Juan María. 
                 Sumérgete en un mundo de elegancia, gastronomía exquisita y momentos únicos 
                 que hacen especial cada estadía.
               </p>
