@@ -194,7 +194,7 @@ const HallsComparisonTable = () => {
               style={{ animationDelay: `${index * 100}ms` }}
             >
               {/* Nombre del salón */}
-              <div className="font-sans text-gray-900 font-semibold group-hover:text-gray-700 transition-colors duration-300">
+              <div className="font-sans font-light text-gray-900 font-semibold group-hover:text-gray-700 transition-colors duration-300">
                 {hall.name}
               </div>
 
@@ -283,7 +283,7 @@ const HallsComparisonTable = () => {
 
       {/* Información adicional */}
       <div className="mt-6 text-center">
-        <p className="font-sans text-sm text-gray-600">
+        <p className="font-sans font-light text-sm text-gray-600">
           Todos los salones incluyen: Aire acondicionado, Wi-Fi, equipos audiovisuales y estación de café
         </p>
       </div>
@@ -336,7 +336,7 @@ const ServiceCard = ({ service, index }: { service: ExtendedService; index: numb
           </h3>
   
           {/* Descripción */}
-          <p className="font-sans text-gray-600 mb-4 leading-relaxed">
+          <p className="font-sans font-light text-gray-600 mb-4 leading-relaxed">
             {service.description}
           </p>
   
@@ -349,7 +349,7 @@ const ServiceCard = ({ service, index }: { service: ExtendedService; index: numb
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
                 </svg>
               </div>
-              <span className="font-sans text-sm text-gray-600">{service.hours}</span>
+              <span className="font-sans font-light text-sm text-gray-600">{service.hours}</span>
             </div>
   
             {/* Capacidad */}
