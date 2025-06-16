@@ -173,7 +173,7 @@ export default function BlogSection() {
                             <Link href={`/blog/${post.slug}`}>
                               <button className="relative font-semibold rounded-lg overflow-hidden transition-all duration-700 group px-4 md:px-6 py-2 md:py-3">
                                 <span className="relative z-10 flex items-center justify-center text-white text-sm md:text-base">
-                                  Leer más
+                                  Leer artículo completo
                                   <ArrowRight className="ml-2 w-4 h-4 group-hover:translate-x-1 transition-transform duration-300" />
                                 </span>
                                 
@@ -270,82 +270,131 @@ export default function BlogSection() {
           </div>
 
           {/* Grid de posts */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {filteredPosts.map((post, index) => (
-              <Link key={post.id} href={`/blog/${post.slug}`}>
-                <article 
-                  className="relative bg-white/70 backdrop-blur-2xl rounded-xl shadow-2xl border border-white/20 overflow-hidden transition-all duration-700 hover:scale-105 hover:-translate-y-2 hover:shadow-3xl group cursor-pointer"
-                  style={{animationDelay: `${index * 150}ms`}}
-                >
-                  {/* Imagen */}
-                  <div className="relative h-48 overflow-hidden">
-                    <Image
-                      src={post.featuredImage}
-                      alt={post.title}
-                      fill
-                      className="object-cover transition-transform duration-700 group-hover:scale-110"
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent"></div>
-                    
-                    {/* Categoría badge */}
-                    <div className="absolute top-4 left-4">
-                      <span 
-                        className="px-3 py-1 rounded-lg text-xs font-medium text-white backdrop-blur-xl"
-                        style={{ backgroundColor: categories.find(cat => cat.name === post.category)?.color || '#6B7280' }}
-                      >
-                        {post.category}
-                      </span>
-                    </div>
-                  </div>
-
-                  {/* Contenido */}
-                  <div className="p-6">
-                    <div className="flex items-center gap-4 mb-3 text-sm text-gray-500">
-                      <div className="flex items-center">
-                        <Calendar className="w-4 h-4 mr-1" />
-                        {formatDate(post.publishedAt)}
-                      </div>
-                      <div className="flex items-center">
-                        <Clock className="w-4 h-4 mr-1" />
-                        {post.readTime} min
-                      </div>
-                    </div>
-                    
-                    <h3 className="font-serif text-xl font-bold text-gray-900 mb-3 line-clamp-2 group-hover:text-gray-700 transition-colors duration-300">
-                      {post.title}
-                    </h3>
-                    
-                    <p className="font-sans text-gray-600 text-sm mb-4 line-clamp-3">
-                      {post.excerpt}
-                    </p>
-                    
-                    <div className="flex items-center gap-3">
+          {filteredPosts.length > 0 ? (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+              {filteredPosts.map((post, index) => (
+                <Link key={post.id} href={`/blog/${post.slug}`}>
+                  <article 
+                    className="relative bg-white/70 backdrop-blur-2xl rounded-xl shadow-2xl border border-white/20 overflow-hidden transition-all duration-700 hover:scale-105 hover:-translate-y-2 hover:shadow-3xl group cursor-pointer h-full flex flex-col"
+                    style={{animationDelay: `${index * 150}ms`}}
+                  >
+                    {/* Imagen - altura fija */}
+                    <div className="relative h-48 overflow-hidden flex-shrink-0">
                       <Image
-                        src={post.author.avatar}
-                        alt={post.author.name}
-                        width={32}
-                        height={32}
-                        className="rounded-full"
+                        src={post.featuredImage}
+                        alt={post.title}
+                        fill
+                        className="object-cover transition-transform duration-700 group-hover:scale-110"
                       />
-                      <div>
-                        <p className="text-sm font-medium text-gray-900">{post.author.name}</p>
-                        <p className="text-xs text-gray-500">{post.author.role}</p>
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent"></div>
+                      
+                      {/* Categoría badge */}
+                      <div className="absolute top-4 left-4">
+                        <span 
+                          className="px-3 py-1 rounded-lg text-xs font-medium text-white backdrop-blur-xl"
+                          style={{ backgroundColor: categories.find(cat => cat.name === post.category)?.color || '#6B7280' }}
+                        >
+                          {post.category}
+                        </span>
                       </div>
                     </div>
-                  </div>
 
-                  {/* Floating highlight */}
-                  <div className="absolute inset-0 bg-gradient-to-br from-white/10 via-transparent to-white/5 opacity-0 group-hover:opacity-100 transition-opacity duration-700"/>
+                    {/* Contenido - con flex-grow para ocupar espacio disponible */}
+                    <div className="p-6 flex flex-col flex-grow">
+                      <div className="flex items-center gap-4 mb-3 text-sm text-gray-500">
+                        <div className="flex items-center">
+                          <Calendar className="w-4 h-4 mr-1" />
+                          {formatDate(post.publishedAt)}
+                        </div>
+                        <div className="flex items-center">
+                          <Clock className="w-4 h-4 mr-1" />
+                          {post.readTime} min
+                        </div>
+                      </div>
+                      
+                      {/* Título - altura fija con line-clamp */}
+                      <h3 className="font-serif text-xl font-bold text-gray-900 mb-3 line-clamp-2 group-hover:text-gray-700 transition-colors duration-300 h-14 flex items-start">
+                        {post.title}
+                      </h3>
+                      
+                      {/* Excerpt - altura fija con line-clamp */}
+                      <p className="font-sans text-gray-600 text-sm mb-4 line-clamp-3 flex-grow h-16 overflow-hidden">
+                        {post.excerpt}
+                      </p>
+                      
+                      {/* Autor - siempre al final */}
+                      <div className="flex items-center gap-3 mt-auto">
+                        <Image
+                          src={post.author.avatar}
+                          alt={post.author.name}
+                          width={32}
+                          height={32}
+                          className="rounded-full"
+                        />
+                        <div>
+                          <p className="text-sm font-medium text-gray-900">{post.author.name}</p>
+                          <p className="text-xs text-gray-500">{post.author.role}</p>
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Floating highlight */}
+                    <div className="absolute inset-0 bg-gradient-to-br from-white/10 via-transparent to-white/5 opacity-0 group-hover:opacity-100 transition-opacity duration-700"/>
+                    
+                    {/* Shimmer effects */}
+                    <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-700">
+                      <div className="absolute top-4 right-6 w-1 h-6 bg-gradient-to-b from-transparent via-gray-300/50 to-transparent rotate-45 animate-pulse"/>
+                      <div className="absolute bottom-4 left-6 w-4 h-0.5 bg-gradient-to-r from-transparent via-gray-300/50 to-transparent animate-pulse" style={{animationDelay: '0.5s'}}/>
+                    </div>
+                  </article>
+                </Link>
+              ))}
+            </div>
+          ) : (
+            /* Estado vacío cuando no hay posts */
+            <div className="text-center py-16">
+              <div className="relative bg-white/70 backdrop-blur-2xl rounded-xl shadow-2xl border border-white/20 p-12 max-w-md mx-auto">
+                {/* Icono decorativo */}
+                <div className="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-6">
+                  <svg className="w-8 h-8 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                  </svg>
+                </div>
+                
+                <h3 className="font-serif text-2xl font-bold text-gray-900 mb-4">
+                  No hay artículos disponibles
+                </h3>
+                
+                <p className="font-sans text-gray-600 mb-6">
+                  {selectedCategory === 'all' 
+                    ? 'Aún no hemos publicado artículos en nuestro blog.' 
+                    : `No tenemos artículos en la categoría "${categories.find(cat => cat.id === selectedCategory)?.name}" por el momento.`
+                  }
+                </p>
+                
+                <button 
+                  onClick={() => setSelectedCategory('all')}
+                  className="relative font-semibold rounded-lg overflow-hidden transition-all duration-700 group px-6 py-3"
+                >
+                  <span className="relative z-10 flex items-center justify-center text-white">
+                    Ver todos los artículos
+                    <ArrowRight className="ml-2 w-4 h-4 group-hover:translate-x-1 transition-transform duration-300" />
+                  </span>
                   
-                  {/* Shimmer effects */}
+                  <div className="absolute inset-0 bg-gradient-to-br from-gray-900 via-gray-800 to-black"/>
+                  <div className="absolute inset-0 bg-gradient-to-tr from-transparent via-white/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700"/>
+                  
                   <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-700">
-                    <div className="absolute top-4 right-6 w-1 h-6 bg-gradient-to-b from-transparent via-gray-300/50 to-transparent rotate-45 animate-pulse"/>
-                    <div className="absolute bottom-4 left-6 w-4 h-0.5 bg-gradient-to-r from-transparent via-gray-300/50 to-transparent animate-pulse" style={{animationDelay: '0.5s'}}/>
+                    <div className="absolute top-1 right-2 w-1 h-3 bg-gradient-to-b from-transparent via-white/30 to-transparent rotate-45 animate-pulse"/>
+                    <div className="absolute bottom-1 left-3 w-2 h-0.5 bg-gradient-to-r from-transparent via-white/20 to-transparent animate-pulse" style={{animationDelay: '0.3s'}}/>
                   </div>
-                </article>
-              </Link>
-            ))}
-          </div>
+                </button>
+                
+                {/* Floating highlight */}
+                <div className="absolute inset-0 bg-gradient-to-br from-white/10 via-transparent to-white/5 opacity-0 hover:opacity-100 transition-opacity duration-700 rounded-xl"/>
+              </div>
+            </div>
+          )}
 
           {/* CTA final */}
           <div className="text-center mt-16">
