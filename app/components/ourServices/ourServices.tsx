@@ -1,7 +1,39 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import { getServices, getFeaturedServices, getHalls, getCapacityTypes, type Hall, type CapacityType } from '../../lib/data';
+import { getServices, getFeaturedServices, getHalls, getCapacityTypes, getServicesCoverImage, type Hall, type CapacityType } from '../../lib/data';
+
+// CSS animations
+const animations = `
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(2rem);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes scaleX {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+`;
 
 // Interface extendida que incluye todas las propiedades posibles
 interface ExtendedService {
@@ -36,10 +68,10 @@ const ServiceIcon = ({ icon, className = "" }: { icon: string; className?: strin
       </svg>
     ),
     business: (
-      <svg className={className} fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2-2v2m8 0H8m8 0v2a2 2 0 002 2h2a2 2 0 002-2V8a2 2 0 00-2-2h-2zM8 6V4m0 2v12m0 0h8m-8 0H6a2 2 0 01-2-2v-2a2 2 0 012-2h2z" />
-      </svg>
-    ),
+        <svg className={className} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
+        </svg>
+      ),
     romantic_dinner: (
       <svg className={className} fill="none" stroke="currentColor" viewBox="0 0 24 24">
         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
@@ -397,6 +429,7 @@ const ServiceCard = ({ service, index }: { service: ExtendedService; index: numb
 const ServicesSection = () => {
   const [services, setServices] = useState<ExtendedService[]>([]);
   const [featuredServices, setFeaturedServices] = useState<ExtendedService[]>([]);
+  const [coverImage, setCoverImage] = useState<string>('');
   const [loading, setLoading] = useState(true);
   const [showAllServices, setShowAllServices] = useState(false);
   const [hasEventServices, setHasEventServices] = useState(false);
@@ -404,13 +437,15 @@ const ServicesSection = () => {
   useEffect(() => {
     const loadServices = async () => {
       try {
-        const [allServices, featured] = await Promise.all([
+        const [allServices, featured, coverImg] = await Promise.all([
           getServices(),
-          getFeaturedServices()
+          getFeaturedServices(),
+          getServicesCoverImage()
         ]);
         
         setServices(allServices as ExtendedService[]);
         setFeaturedServices(allServices as ExtendedService[]); // Mostrar todos por defecto
+        setCoverImage(coverImg);
         
         // Verificar si hay servicios de eventos (que tendrían salones)
         const eventServices = allServices.filter(service => 
@@ -433,89 +468,186 @@ const ServicesSection = () => {
 
   if (loading) {
     return (
-      <section className="py-16 px-4">
-        <div className="max-w-7xl mx-auto">
-          <div className="text-center mb-12">
-            <div className="w-48 h-8 bg-gray-200/60 rounded-lg mx-auto mb-4 animate-pulse" />
-            <div className="w-96 h-6 bg-gray-200/60 rounded-lg mx-auto animate-pulse" />
-          </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {[1, 2, 3].map((i) => (
-              <div key={i} className="h-96 bg-gray-200/60 rounded-xl animate-pulse" />
-            ))}
-          </div>
+      <section className="min-h-screen flex items-center justify-center bg-gradient-to-b from-gray-50 via-white to-gray-100">
+        <div className="relative bg-white/70 backdrop-blur-2xl rounded-xl shadow-2xl border border-white/20 p-8 animate-pulse">
+          <div className="w-64 h-8 bg-gray-200/60 rounded-lg mx-auto mb-4" />
+          <div className="w-96 h-6 bg-gray-200/60 rounded-lg mx-auto" />
         </div>
       </section>
     );
   }
 
   return (
-    <section className="py-16 px-4 pt-24 relative overflow-hidden">
-      {/* Orbes de fondo */}
-      <div className="absolute top-0 right-0 w-32 h-32 bg-white/5 rounded-full blur-3xl animate-pulse" />
-      <div className="absolute bottom-0 left-0 w-48 h-48 bg-white/5 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '2s' }} />
+    <>
+      {/* Inject CSS animations */}
+      <style>{animations}</style>
+      
+      <section className="relative overflow-hidden">
+        {/* Hero Section Fullscreen */}
+        <div className="relative min-h-screen flex items-center justify-center overflow-hidden">
+          {/* Cover Image Background */}
+          <div className="absolute inset-0 z-0">
+            <img 
+              src={coverImage} 
+              alt="Servicios Hotel Juan María"
+              className="w-full h-full object-cover"
+            />
+            {/* Overlay gradients para el efecto liquid luxury */}
+            <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-black/20 to-black/60" />
+            <div className="absolute inset-0 bg-gradient-to-r from-black/30 via-transparent to-black/30" />
+          </div>
 
-      <div className="max-w-7xl mx-auto relative">
-        {/* Header */}
-        <div className="text-center mb-12">
-          <h2 className="font-serif text-2xl md:text-3xl font-bold text-gray-900 mb-4">
-            Nuestros Servicios
-          </h2>
-          <p className="font-sans text-lg md:text-xl font-light text-gray-600 max-w-2xl mx-auto">
-            Descubre la excelencia en cada detalle de nuestros servicios premium
-          </p>
-        </div>
+          {/* Orbes flotantes más sutiles para no competir con la imagen */}
+          <div className="absolute top-0 right-0 w-64 h-64 bg-white/3 rounded-full blur-3xl animate-pulse" />
+          <div className="absolute bottom-0 left-0 w-96 h-96 bg-white/3 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '2s' }} />
+          <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-48 h-48 bg-white/2 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '4s' }} />
 
-        {/* Grid de servicios */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-12">
-          {displayServices.map((service, index) => (
-            <ServiceCard key={service.id} service={service} index={index} />
-          ))}
-        </div>
+          {/* Espacio para navbar */}
+          <div className="absolute top-0 left-0 right-0 h-20 bg-gradient-to-b from-black/50 to-transparent z-10" />
 
-        {/* Tabla comparativa de salones - solo mostrar si hay servicios de eventos */}
-        {hasEventServices && (
-          <HallsComparisonTable />
-        )}
-
-        {/* Botón para mostrar menos (opcional, ya que mostramos todos por defecto) */}
-        {false && !showAllServices && services.length > featuredServices.length && (
-          <div className="text-center">
-            <button 
-              onClick={() => setShowAllServices(true)}
-              className="relative font-semibold rounded-lg overflow-hidden transition-all duration-700 group px-8 py-3"
-            >
-              <span className="relative z-10 flex items-center justify-center text-white">
-                Ver todos los servicios
-                <div className="ml-2 w-2 h-2 bg-white/70 rounded-full group-hover:bg-white transition-colors duration-300" />
-              </span>
+          <div className="max-w-7xl mx-auto px-4 relative z-20 pt-20">
+            {/* Glassmorphism container principal - más transparente para la imagen */}
+            <div className="relative bg-white/10 backdrop-blur-2xl rounded-xl shadow-2xl border border-white/20 overflow-hidden p-8 md:p-12">
+              {/* Floating highlight más sutil */}
+              <div className="absolute inset-0 bg-gradient-to-br from-white/5 via-transparent to-white/10 opacity-60" />
               
-              {/* Efectos de fondo obligatorios */}
-              <div className="absolute inset-0 bg-gradient-to-br from-gray-900 via-gray-800 to-black" />
-              <div className="absolute inset-0 bg-gradient-to-tr from-transparent via-white/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
-              
-              {/* Shimmer effects */}
-              <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-700">
-                <div className="absolute top-1 right-2 w-1 h-3 bg-gradient-to-b from-transparent via-white/30 to-transparent rotate-45 animate-pulse" />
-                <div className="absolute bottom-1 left-3 w-2 h-0.5 bg-gradient-to-r from-transparent via-white/20 to-transparent animate-pulse" style={{ animationDelay: '0.3s' }} />
+              {/* Shimmer effects ajustados para fondo oscuro */}
+              <div className="absolute inset-0 opacity-40">
+                <div className="absolute top-8 right-12 w-1 h-8 bg-gradient-to-b from-transparent via-white/30 to-transparent rotate-45 animate-pulse" />
+                <div className="absolute bottom-8 left-12 w-6 h-0.5 bg-gradient-to-r from-transparent via-white/30 to-transparent animate-pulse" style={{ animationDelay: '0.5s' }} />
+                <div className="absolute top-1/2 right-8 w-2 h-2 bg-white/20 rounded-full animate-pulse" style={{ animationDelay: '1s' }} />
               </div>
-            </button>
-          </div>
-        )}
 
-        {/* Botón para mostrar menos (opcional) */}
-        {false && showAllServices && (
-          <div className="text-center">
-            <button 
-              onClick={() => setShowAllServices(false)}
-              className="text-gray-600 hover:text-gray-800 font-sans text-sm transition-colors duration-300"
-            >
-              Mostrar solo destacados
-            </button>
+              <div className="relative z-10 text-center">
+                {/* Subtitle con entrada animada - texto blanco para contraste */}
+                <div 
+                  className="inline-flex items-center px-4 py-2 bg-white/20 backdrop-blur-xl border border-white/30 text-white rounded-lg text-sm font-medium mb-6 transform transition-all duration-1000 translate-y-8 opacity-0"
+                  style={{ animationDelay: '200ms', animation: 'fadeInUp 1000ms ease-out 200ms forwards' }}
+                >
+                  <div className="w-2 h-2 bg-white/70 rounded-full mr-3 animate-pulse" />
+                  Experiencias Premium
+                </div>
+
+                {/* Título principal - blanco para contraste */}
+                <h1 
+                  className="font-serif text-4xl md:text-5xl lg:text-7xl font-bold text-white mb-6 transform transition-all duration-1000 translate-y-8 opacity-0"
+                  style={{ animationDelay: '400ms', animation: 'fadeInUp 1000ms ease-out 400ms forwards' }}
+                >
+                  Nuestros{' '}
+                  <span className="relative">
+                    Servicios
+                    {/* Underline effect - blanco */}
+                    <div className="absolute bottom-2 left-0 w-full h-1 bg-gradient-to-r from-white via-white/80 to-white transform scale-x-0 origin-left transition-transform duration-1000" style={{ animationDelay: '1.2s', animation: 'scaleX 800ms ease-out 1.2s forwards' }} />
+                  </span>
+                </h1>
+
+                {/* Descripción - texto blanco */}
+                <p 
+                  className="font-sans text-lg md:text-xl font-light text-white/90 max-w-3xl mx-auto mb-8 leading-relaxed transform transition-all duration-1000 translate-y-8 opacity-0"
+                  style={{ animationDelay: '600ms', animation: 'fadeInUp 1000ms ease-out 600ms forwards' }}
+                >
+                  Descubre la excelencia en cada detalle de nuestros servicios premium. 
+                  Desde experiencias gastronómicas hasta eventos inolvidables, 
+                  cada momento está diseñado para superar tus expectativas.
+                </p>
+
+                {/* Stats con glassmorphism ajustado */}
+                <div 
+                  className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-4xl mx-auto transform transition-all duration-1000 translate-y-8 opacity-0"
+                  style={{ animationDelay: '800ms', animation: 'fadeInUp 1000ms ease-out 800ms forwards' }}
+                >
+                  {[
+                    { number: '6', label: 'Servicios Premium', delay: '0ms' },
+                    { number: '4', label: 'Salones para Eventos', delay: '100ms' },
+                    { number: '120', label: 'Capacidad Máxima', delay: '200ms' }
+                  ].map((stat, index) => (
+                    <div 
+                      key={index}
+                      className="relative bg-white/15 backdrop-blur-xl rounded-xl shadow-2xl border border-white/20 p-6 transition-all duration-700 hover:scale-105 hover:-translate-y-2 hover:shadow-3xl hover:bg-white/25 group"
+                      style={{ animationDelay: stat.delay }}
+                    >
+                      {/* Floating highlight */}
+                      <div className="absolute inset-0 bg-gradient-to-br from-white/10 via-transparent to-white/5 opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
+                      
+                      {/* Content - texto blanco */}
+                      <div className="relative z-10 text-center">
+                        <div className="font-serif text-3xl md:text-4xl font-bold text-white mb-2">
+                          {stat.number}
+                        </div>
+                        <div className="font-sans text-sm font-medium text-white/80">
+                          {stat.label}
+                        </div>
+                      </div>
+
+                      {/* Shimmer effects */}
+                      <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-700">
+                        <div className="absolute top-2 right-3 w-0.5 h-4 bg-gradient-to-b from-transparent via-white/50 to-transparent rotate-45 animate-pulse" />
+                        <div className="absolute bottom-2 left-3 w-3 h-0.5 bg-gradient-to-r from-transparent via-white/30 to-transparent animate-pulse" style={{ animationDelay: '0.3s' }} />
+                      </div>
+                    </div>
+                  ))}
+                </div>
+
+                {/* Call to action button - ajustado para fondo oscuro */}
+                <div 
+                  className="mt-12 transform transition-all duration-1000 translate-y-8 opacity-0"
+                  style={{ animationDelay: '1000ms', animation: 'fadeInUp 1000ms ease-out 1000ms forwards' }}
+                >
+                  <button className="relative font-semibold rounded-lg overflow-hidden transition-all duration-700 group px-8 py-4">
+                    <span className="relative z-10 flex items-center justify-center text-white">
+                      Explorar Servicios
+                      <div className="ml-3 w-2 h-2 bg-white/70 rounded-full group-hover:bg-white transition-colors duration-300" />
+                    </span>
+                    
+                    {/* Efectos de fondo - blanco para contraste */}
+                    <div className="absolute inset-0 bg-white/20 backdrop-blur-xl border border-white/30" />
+                    <div className="absolute inset-0 bg-gradient-to-tr from-transparent via-white/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
+                    
+                    {/* Shimmer effects */}
+                    <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-700">
+                      <div className="absolute top-1 right-2 w-1 h-4 bg-gradient-to-b from-transparent via-white/50 to-transparent rotate-45 animate-pulse" />
+                      <div className="absolute bottom-1 left-3 w-3 h-0.5 bg-gradient-to-r from-transparent via-white/30 to-transparent animate-pulse" style={{ animationDelay: '0.3s' }} />
+                    </div>
+                  </button>
+                </div>
+              </div>
+            </div>
           </div>
-        )}
-      </div>
-    </section>
+
+          {/* Scroll indicator ajustado para fondo oscuro */}
+          <div 
+            className="absolute bottom-8 left-1/2 transform -translate-x-1/2 flex flex-col items-center opacity-0 z-20"
+            style={{ animation: 'fadeIn 1000ms ease-out 1.5s forwards' }}
+          >
+            <div className="w-6 h-10 border-2 border-white/40 rounded-full mb-2 relative">
+              <div className="w-1 h-3 bg-white/60 rounded-full absolute top-2 left-1/2 transform -translate-x-1/2 animate-bounce" />
+            </div>
+            <span className="font-sans text-xs text-white/70 font-medium">Descubre más</span>
+          </div>
+        </div>
+
+        {/* Contenido principal de servicios */}
+        <div className="py-16 px-4 relative">
+          {/* Orbes de fondo para el contenido */}
+          <div className="absolute top-0 right-0 w-32 h-32 bg-white/5 rounded-full blur-3xl animate-pulse" />
+          <div className="absolute bottom-0 left-0 w-48 h-48 bg-white/5 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '2s' }} />
+
+          <div className="max-w-7xl mx-auto relative">
+            {/* Grid de servicios */}
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-12">
+              {displayServices.map((service, index) => (
+                <ServiceCard key={service.id} service={service} index={index} />
+              ))}
+            </div>
+
+            {/* Tabla comparativa de salones - solo mostrar si hay servicios de eventos */}
+            {hasEventServices && (
+              <HallsComparisonTable />
+            )}
+          </div>
+        </div>
+      </section>
+    </>
   );
 };
 

@@ -235,6 +235,11 @@ export async function getServices(): Promise<Service[]> {
   return servicesData.services;
 }
 
+export async function getServicesCoverImage(): Promise<string> {
+  await new Promise(resolve => setTimeout(resolve, 50));
+  return servicesData.coverImage;
+}
+
 export async function getFeaturedServices(): Promise<Service[]> {
   const services = await getServices();
   return services.filter(service => service.featured);

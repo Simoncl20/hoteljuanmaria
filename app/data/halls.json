@@ -2,7 +2,7 @@
     "halls": [
       {
         "id": 1,
-        "name": "Candelaria",
+        "name": "Andrés",
         "size": 34,
         "banquet": 18,
         "classroom": 18,
@@ -18,7 +18,7 @@
       },
       {
         "id": 2,
-        "name": "Usaquén", 
+        "name": "Rose", 
         "size": 18,
         "banquet": null,
         "classroom": null,
