@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { getServices, getFeaturedServices, getHalls, getCapacityTypes, getServicesCoverImage, type Hall, type CapacityType } from '../../lib/data';
+import { Button } from '../ui/button';
 
 // CSS animations
 const animations = `
@@ -292,138 +293,139 @@ const HallsComparisonTable = () => {
 
 // Componente individual de servicio
 const ServiceCard = ({ service, index }: { service: ExtendedService; index: number }) => {
-  return (
-    <div 
-      className="relative bg-white/70 backdrop-blur-2xl rounded-xl shadow-2xl border border-white/20 overflow-hidden transition-all duration-700 hover:scale-105 hover:-translate-y-2 hover:shadow-3xl group"
-      style={{ animationDelay: `${index * 150}ms` }}
-    >
-      {/* Imagen de fondo */}
-      <div className="relative h-64 overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-gray-900/20 to-gray-900/60" />
-        <img 
-          src={service.image} 
-          alt={service.title}
-          className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
-        />
-        
-        {/* Badge de destacado */}
-        {service.featured && (
-          <div className="absolute top-4 right-4 bg-gradient-to-r from-gray-900 via-gray-800 to-black text-white px-3 py-1 rounded-lg text-sm font-semibold">
-            <span className="relative z-10">Destacado</span>
-            <div className="absolute inset-0 bg-gradient-to-tr from-transparent via-white/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
-          </div>
-        )}
-
-        {/* Icono flotante */}
-        <div className="absolute top-4 left-4 w-12 h-12 bg-white/20 backdrop-blur-xl rounded-lg flex items-center justify-center border border-white/30">
-          <ServiceIcon icon={service.icon} className="w-6 h-6 text-white" />
-        </div>
-      </div>
-
-      {/* Contenido */}
-      <div className="p-6">
-        {/* Título */}
-        <h3 className="font-serif text-xl font-bold text-gray-900 mb-3 group-hover:text-gray-700 transition-colors duration-300">
-          {service.title}
-        </h3>
-
-        {/* Descripción */}
-        <p className="font-sans text-gray-600 mb-4 leading-relaxed">
-          {service.description}
-        </p>
-
-        {/* Información adicional */}
-        <div className="space-y-3">
-          {/* Horarios */}
-          <div className="flex items-start gap-3">
-            <div className="w-5 h-5 flex-shrink-0 mt-0.5">
-              <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" className="w-full h-full text-gray-500">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
-              </svg>
+    return (
+      <div 
+        className="relative bg-white/70 backdrop-blur-2xl rounded-xl shadow-2xl border border-white/20 overflow-hidden transition-all duration-700 hover:scale-105 hover:-translate-y-2 hover:shadow-3xl group flex flex-col h-full"
+        style={{ animationDelay: `${index * 150}ms` }}
+      >
+        {/* Imagen de fondo */}
+        <div className="relative h-64 overflow-hidden flex-shrink-0">
+          <div className="absolute inset-0 bg-gradient-to-b from-transparent via-gray-900/20 to-gray-900/60" />
+          <img 
+            src={service.image} 
+            alt={service.title}
+            className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+          />
+          
+          {/* Badge de destacado */}
+          {service.featured && (
+            <div className="absolute top-4 right-4 bg-gradient-to-r from-gray-900 via-gray-800 to-black text-white px-3 py-1 rounded-lg text-sm font-semibold">
+              <span className="relative z-10">Destacado</span>
+              <div className="absolute inset-0 bg-gradient-to-tr from-transparent via-white/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
             </div>
-            <span className="font-sans text-sm text-gray-600">{service.hours}</span>
+          )}
+  
+          {/* Icono flotante */}
+          <div className="absolute top-4 left-4 w-12 h-12 bg-white/20 backdrop-blur-xl rounded-lg flex items-center justify-center border border-white/30">
+            <ServiceIcon icon={service.icon} className="w-6 h-6 text-white" />
           </div>
-
-          {/* Capacidad */}
-          {service.capacity && (
-            <div className="flex items-center gap-3">
-              <div className="w-5 h-5 flex-shrink-0">
+        </div>
+  
+        {/* Contenido - usa flex-grow para ocupar el espacio disponible */}
+        <div className="p-6 flex flex-col flex-grow">
+          {/* Título */}
+          <h3 className="font-serif text-xl font-bold text-gray-900 mb-3 group-hover:text-gray-700 transition-colors duration-300">
+            {service.title}
+          </h3>
+  
+          {/* Descripción */}
+          <p className="font-sans text-gray-600 mb-4 leading-relaxed">
+            {service.description}
+          </p>
+  
+          {/* Información adicional - usa flex-grow para ocupar el espacio disponible */}
+          <div className="space-y-3 flex-grow">
+            {/* Horarios */}
+            <div className="flex items-start gap-3">
+              <div className="w-5 h-5 flex-shrink-0 mt-0.5">
                 <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" className="w-full h-full text-gray-500">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
                 </svg>
               </div>
-              <span className="font-sans text-sm text-gray-600">Capacidad: {service.capacity}</span>
+              <span className="font-sans text-sm text-gray-600">{service.hours}</span>
             </div>
-          )}
-
-          {/* Salones (para eventos) */}
-          {service.halls && (
-            <div className="mt-4">
-              <h4 className="font-sans text-sm font-semibold text-gray-700 mb-2">Salones disponibles:</h4>
-              <div className="flex flex-wrap gap-2">
-                {service.halls.map((hall, hallIndex) => (
-                  <span 
-                    key={hallIndex}
-                    className="px-2 py-1 bg-gray-100/60 backdrop-blur-sm rounded-lg text-xs text-gray-600 border border-gray-200/40"
-                  >
-                    {hall}
-                  </span>
-                ))}
+  
+            {/* Capacidad */}
+            {service.capacity && (
+              <div className="flex items-center gap-3">
+                <div className="w-5 h-5 flex-shrink-0">
+                  <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" className="w-full h-full text-gray-500">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
+                  </svg>
+                </div>
+                <span className="font-sans text-sm text-gray-600">Capacidad: {service.capacity}</span>
               </div>
-            </div>
-          )}
-
-          {/* Servicios incluidos */}
-          {service.services_included && (
-            <div className="mt-4">
-              <h4 className="font-sans text-sm font-semibold text-gray-700 mb-2">Servicios incluidos:</h4>
-              <ul className="space-y-1">
-                {service.services_included.slice(0, 3).map((item, itemIndex) => (
-                  <li key={itemIndex} className="flex items-start gap-2">
-                    <div className="w-1.5 h-1.5 bg-gray-400 rounded-full mt-2 flex-shrink-0" />
-                    <span className="font-sans text-xs text-gray-600">{item}</span>
-                  </li>
-                ))}
-                {service.services_included.length > 3 && (
-                  <li className="font-sans text-xs text-gray-500 italic">
-                    +{service.services_included.length - 3} servicios más
-                  </li>
-                )}
-              </ul>
-            </div>
-          )}
-        </div>
-
-        {/* Botón de acción */}
-        <button className="w-full mt-6 relative font-semibold rounded-lg overflow-hidden transition-all duration-700 group/btn py-3">
-          <span className="relative z-10 flex items-center justify-center text-white">
-            Más información
-            <div className="ml-2 w-2 h-2 bg-white/70 rounded-full group-hover/btn:bg-white transition-colors duration-300" />
-          </span>
-          
-          {/* Efectos de fondo obligatorios */}
-          <div className="absolute inset-0 bg-gradient-to-br from-gray-900 via-gray-800 to-black" />
-          <div className="absolute inset-0 bg-gradient-to-tr from-transparent via-white/10 to-transparent opacity-0 group-hover/btn:opacity-100 transition-opacity duration-700" />
-          
-          {/* Shimmer effects */}
-          <div className="absolute inset-0 opacity-0 group-hover/btn:opacity-100 transition-opacity duration-700">
-            <div className="absolute top-1 right-2 w-1 h-3 bg-gradient-to-b from-transparent via-white/30 to-transparent rotate-45 animate-pulse" />
-            <div className="absolute bottom-1 left-3 w-2 h-0.5 bg-gradient-to-r from-transparent via-white/20 to-transparent animate-pulse" style={{ animationDelay: '0.3s' }} />
+            )}
+  
+            {/* Salones (para eventos) */}
+            {service.halls && (
+              <div className="mt-4">
+                <h4 className="font-sans text-sm font-semibold text-gray-700 mb-2">Salones disponibles:</h4>
+                <div className="flex flex-wrap gap-2">
+                  {service.halls.map((hall, hallIndex) => (
+                    <span 
+                      key={hallIndex}
+                      className="px-2 py-1 bg-gray-100/60 backdrop-blur-sm rounded-lg text-xs text-gray-600 border border-gray-200/40"
+                    >
+                      {hall}
+                    </span>
+                  ))}
+                </div>
+              </div>
+            )}
+  
+            {/* Servicios incluidos */}
+            {service.services_included && (
+              <div className="mt-4">
+                <h4 className="font-sans text-sm font-semibold text-gray-700 mb-2">Servicios incluidos:</h4>
+                <ul className="space-y-1">
+                  {service.services_included.slice(0, 3).map((item, itemIndex) => (
+                    <li key={itemIndex} className="flex items-start gap-2">
+                      <div className="w-1.5 h-1.5 bg-gray-400 rounded-full mt-2 flex-shrink-0" />
+                      <span className="font-sans text-xs text-gray-600">{item}</span>
+                    </li>
+                  ))}
+                  {service.services_included.length > 3 && (
+                    <li className="font-sans text-xs text-gray-500 italic">
+                      +{service.services_included.length - 3} servicios más
+                    </li>
+                  )}
+                </ul>
+              </div>
+            )}
           </div>
-        </button>
+  
+          {/* Botón de acción - siempre fijo en la parte inferior */}
+          <Button
+            onClick={() => {
+              const element = document.getElementById('servicios-content');
+              if (element) {
+                element.scrollIntoView({ 
+                  behavior: 'smooth',
+                  block: 'start'
+                });
+              }
+            }}
+            variant="primary"
+            size="md"
+            showIndicator={false}
+            className="w-full mt-6 flex-shrink-0"
+          >
+            Más información
+          </Button>
+        </div>
+  
+        {/* Floating highlight */}
+        <div className="absolute inset-0 bg-gradient-to-br from-white/10 via-transparent to-white/5 opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
+        
+        {/* Shimmer effects */}
+        <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-700">
+          <div className="absolute top-4 right-6 w-1 h-6 bg-gradient-to-b from-transparent via-gray-300/50 to-transparent rotate-45 animate-pulse" />
+          <div className="absolute bottom-4 left-6 w-4 h-0.5 bg-gradient-to-r from-transparent via-gray-300/50 to-transparent animate-pulse" style={{ animationDelay: '0.5s' }} />
+        </div>
       </div>
-
-      {/* Floating highlight */}
-      <div className="absolute inset-0 bg-gradient-to-br from-white/10 via-transparent to-white/5 opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
-      
-      {/* Shimmer effects */}
-      <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-700">
-        <div className="absolute top-4 right-6 w-1 h-6 bg-gradient-to-b from-transparent via-gray-300/50 to-transparent rotate-45 animate-pulse" />
-        <div className="absolute bottom-4 left-6 w-4 h-0.5 bg-gradient-to-r from-transparent via-gray-300/50 to-transparent animate-pulse" style={{ animationDelay: '0.5s' }} />
-      </div>
-    </div>
-  );
-};
+    );
+  };
 
 // Componente principal de servicios
 const ServicesSection = () => {
@@ -593,7 +595,18 @@ const ServicesSection = () => {
                   className="mt-12 transform transition-all duration-1000 translate-y-8 opacity-0"
                   style={{ animationDelay: '1000ms', animation: 'fadeInUp 1000ms ease-out 1000ms forwards' }}
                 >
-                  <button className="relative font-semibold rounded-lg overflow-hidden transition-all duration-700 group px-8 py-4">
+                  <button 
+                    onClick={() => {
+                      const element = document.getElementById('servicios-content');
+                      if (element) {
+                        element.scrollIntoView({ 
+                          behavior: 'smooth',
+                          block: 'start'
+                        });
+                      }
+                    }}
+                    className="relative font-semibold rounded-lg overflow-hidden transition-all duration-700 group px-8 py-4"
+                  >
                     <span className="relative z-10 flex items-center justify-center text-white">
                       Explorar Servicios
                       <div className="ml-3 w-2 h-2 bg-white/70 rounded-full group-hover:bg-white transition-colors duration-300" />
@@ -627,8 +640,8 @@ const ServicesSection = () => {
         </div>
 
         {/* Contenido principal de servicios */}
-        <div className="py-16 px-4 relative">
-          {/* Orbes de fondo para el contenido */}
+        <div id="servicios-content" className="py-16 px-4 relative">
+        {/* Orbes de fondo para el contenido */}
           <div className="absolute top-0 right-0 w-32 h-32 bg-white/5 rounded-full blur-3xl animate-pulse" />
           <div className="absolute bottom-0 left-0 w-48 h-48 bg-white/5 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '2s' }} />
 
