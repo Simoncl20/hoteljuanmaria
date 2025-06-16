@@ -291,8 +291,15 @@ const HallsComparisonTable = () => {
   );
 };
 
-// Componente individual de servicio
+// Componente ServiceCard actualizado con navegación
 const ServiceCard = ({ service, index }: { service: ExtendedService; index: number }) => {
+    // Función para navegar al detalle del servicio
+    const handleViewDetails = () => {
+
+      window.location.href = `/experiencias/${service.id}`;
+    
+    };
+  
     return (
       <div 
         className="relative bg-white/70 backdrop-blur-2xl rounded-xl shadow-2xl border border-white/20 overflow-hidden transition-all duration-700 hover:scale-105 hover:-translate-y-2 hover:shadow-3xl group flex flex-col h-full"
@@ -395,33 +402,17 @@ const ServiceCard = ({ service, index }: { service: ExtendedService; index: numb
             )}
           </div>
   
-          {/* Botón de acción - siempre fijo en la parte inferior */}
-          <Button
-            onClick={() => {
-              const element = document.getElementById('servicios-content');
-              if (element) {
-                element.scrollIntoView({ 
-                  behavior: 'smooth',
-                  block: 'start'
-                });
-              }
-            }}
-            variant="primary"
-            size="md"
-            showIndicator={false}
-            className="w-full mt-6 flex-shrink-0"
-          >
-            Más información
-          </Button>
-        </div>
-  
-        {/* Floating highlight */}
-        <div className="absolute inset-0 bg-gradient-to-br from-white/10 via-transparent to-white/5 opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
-        
-        {/* Shimmer effects */}
-        <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-700">
-          <div className="absolute top-4 right-6 w-1 h-6 bg-gradient-to-b from-transparent via-gray-300/50 to-transparent rotate-45 animate-pulse" />
-          <div className="absolute bottom-4 left-6 w-4 h-0.5 bg-gradient-to-r from-transparent via-gray-300/50 to-transparent animate-pulse" style={{ animationDelay: '0.5s' }} />
+         {/* Botón de acción ACTUALIZADO - ahora navega al detalle */}
+        <Button
+          onClick={handleViewDetails}
+          variant="primary"
+          size="md"
+          showIndicator={false}
+          className="w-full mt-6 flex-shrink-0 py-4 px-6"
+        >
+          Ver Detalles
+        </Button>
+
         </div>
       </div>
     );

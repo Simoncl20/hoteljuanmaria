@@ -9,7 +9,7 @@
       "image": "/restaurant.jpg",
       "hours": "Lunes a Viernes: 6:30-10:00 AM, 12:00-2:30 PM, 6:30-9:00 PM | Sábado: 6:30 AM-2:30 PM | Domingo: 6:30-10:00 AM (solo desayuno)",
       "capacity": "60 asientos",
-      "featured": true
+      "featured": false
     },
     {
       "id": 2,
