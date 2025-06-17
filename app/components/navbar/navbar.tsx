@@ -46,22 +46,18 @@ export default function Navbar() {
       href: "/habitaciones",
       hasDropdown: true,
       dropdownItems: [
-        { name: "Suite Presidencial", href: "/habitaciones/suite-presidencial" },
-        { name: "Habitación Ejecutiva", href: "/habitaciones/ejecutiva" },
-        { name: "Habitación Familiar", href: "/habitaciones/familiar" },
-        { name: "Habitación Standard", href: "/habitaciones/standard" }
+        { name: "Habitación Individual Estándar", href: "/habitaciones/1" },
+        { name: "Habitación Doble Estándar", href: "/habitaciones/2" },
+        { name: "Habitación Triple Estándar", href: "/habitaciones/3" },
+        { name: "Habitación Cuádruple Estándar", href: "/habitaciones/4" },
+        { name: "Junior Suite", href: "/habitaciones/5" },
+        { name: "Master Suite", href: "/habitaciones/6" }
       ]
     },
     {
       name: "Experiencias",
       href: "/experiencias",
-      hasDropdown: true,
-      dropdownItems: [
-        { name: "Restaurante", href: "/experiencias/restaurante" },
-        { name: "Spa & Bienestar", href: "/experiencias/spa" },
-        { name: "Eventos", href: "/experiencias/eventos" },
-        { name: "Galería", href: "/experiencias/galeria" }
-      ]
+      hasDropdown: false
     },
     {
       name: "Blog",
@@ -118,8 +114,6 @@ export default function Navbar() {
                 <div
                   key={item.name}
                   className="relative group"
-                  onMouseEnter={() => item.hasDropdown && setActiveDropdown(item.name)}
-                  onMouseLeave={() => setActiveDropdown(null)}
                   style={{ 
                     animationDelay: `${index * 100}ms` 
                   }}
@@ -127,6 +121,8 @@ export default function Navbar() {
                   <Link
                     href={item.href}
                     className="flex items-center px-6 py-3 text-sm font-medium text-gray-700 transition-all duration-500 relative overflow-hidden group hover:text-gray-900"
+                    onMouseEnter={() => item.hasDropdown && setActiveDropdown(item.name)}
+                    onMouseLeave={() => !item.hasDropdown && setActiveDropdown(null)}
                   >
                     <span className="relative z-20 flex items-center">
                       {item.name}
@@ -154,15 +150,15 @@ export default function Navbar() {
                   {/* Soft Elegant Dropdown with smooth transitions */}
                   {item.hasDropdown && item.dropdownItems && (
                     <div 
-                      className={`absolute top-full left-1/2 transform -translate-x-1/2 w-64 transition-all duration-500 ease-out ${
+                      className={`absolute top-full left-1/2 transform -translate-x-1/2 w-64 transition-all duration-500 ease-out z-[9999] ${
                         activeDropdown === item.name 
                           ? "opacity-100 translate-y-2 visible blur-0" 
                           : "opacity-0 -translate-y-4 invisible blur-sm"
                       }`}
                       onMouseEnter={() => setActiveDropdown(item.name)}
-                      onMouseLeave={() => setTimeout(() => setActiveDropdown(null), 100)}
+                      onMouseLeave={() => setActiveDropdown(null)}
                     >
-                      <div className="mt-4 bg-white/80 backdrop-blur-2xl rounded-3xl shadow-xl border border-white/30 overflow-hidden transform transition-all duration-300">
+                      <div className="mt-4 bg-white rounded-3xl shadow-xl border border-gray-200/50 overflow-hidden transform transition-all duration-300">
                         {/* Soft floating header orb */}
                         <div className="absolute -top-2 left-1/2 transform -translate-x-1/2 w-4 h-4 bg-gradient-to-br from-white to-gray-100 rounded-full shadow-lg border border-gray-200/50 transition-all duration-300"></div>
                         

@@ -2,10 +2,50 @@
 
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
-import { Facebook, Twitter, Youtube, Phone, Mail, MapPin, ArrowUp } from 'lucide-react';
+import { Facebook, Twitter, Youtube, Phone, Mail, MapPin, ArrowUp, Instagram, Linkedin } from 'lucide-react';
+import { getContactInfo, getSiteSettings } from '../../lib/data';
+
+interface ContactInfo {
+  hotel: {
+    name: string;
+    address: {
+      street: string;
+      neighborhood: string;
+      city: string;
+      state: string;
+      country: string;
+    };
+  };
+  phone: {
+    main: string;
+    secondary: string;
+    whatsapp: string;
+  };
+  email: {
+    reservations: string;
+    marketing: string;
+  };
+  social: {
+    [key: string]: string;
+  };
+  hours: {
+    [key: string]: string;
+  };
+}
+
+interface SiteSettings {
+  site: {
+    name: string;
+    tagline: string;
+    description: string;
+  };
+}
 
 const Footer = () => {
   const [showScrollTop, setShowScrollTop] = useState(false);
+  const [contactInfo, setContactInfo] = useState<ContactInfo | null>(null);
+  const [siteSettings, setSiteSettings] = useState<SiteSettings | null>(null);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -19,16 +59,49 @@ const Footer = () => {
     };
   }, []);
 
+  useEffect(() => {
+    const loadData = async () => {
+      try {
+        const [contact, settings] = await Promise.all([
+          getContactInfo(),
+          getSiteSettings()
+        ]);
+        setContactInfo(contact);
+        setSiteSettings(settings);
+      } catch (error) {
+        console.error('Error loading footer data:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    loadData();
+  }, []);
+
   const scrollToTop = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
-  const socialLinks = [
-    { icon: Facebook, href: "#", label: "Facebook" },
-    { icon: Twitter, href: "#", label: "Twitter" },
-    { icon: Youtube, href: "#", label: "YouTube" },
-    { icon: Phone, href: "tel:+573246669900", label: "Teléfono" }
-  ];
+  // Get social media links with icons
+  const getSocialLinks = () => {
+    if (!contactInfo?.social) return [];
+    
+    const socialIconMap = {
+      facebook: Facebook,
+      instagram: Instagram,
+      twitter: Twitter,
+      youtube: Youtube,
+      linkedin: Linkedin
+    };
+
+    return Object.entries(contactInfo.social)
+      .filter(([, url]) => url) // Only include if URL exists
+      .map(([platform, url]) => ({
+        icon: socialIconMap[platform as keyof typeof socialIconMap] || Facebook,
+        href: url,
+        label: platform.charAt(0).toUpperCase() + platform.slice(1)
+      }));
+  };
 
   const companyLinks = [
     { name: "Inicio", href: "/" },
@@ -40,10 +113,32 @@ const Footer = () => {
 
   const usefulLinks = [
     { name: "Reservas", href: "/reservas" },
-    { name: "Eventos", href: "/eventos" },
-    { name: "FAQ", href: "/faq" },
-    { name: "Galería", href: "/galeria" }
+    { name: "Preguntas frecuentes", href: "/faq" },
   ];
+
+  if (loading) {
+    return (
+      <footer className="bg-gradient-to-br from-gray-50 via-white to-gray-100 py-16">
+        <div className="container mx-auto px-6 lg:px-8">
+          <div className="animate-pulse">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+              {[...Array(4)].map((_, i) => (
+                <div key={i} className="bg-white/50 rounded-xl p-6 space-y-4">
+                  <div className="h-4 bg-gray-300 rounded w-3/4"></div>
+                  <div className="space-y-2">
+                    <div className="h-3 bg-gray-200 rounded"></div>
+                    <div className="h-3 bg-gray-200 rounded w-5/6"></div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </footer>
+    );
+  }
+
+  const socialLinks = getSocialLinks();
 
   return (
     <div>
@@ -56,30 +151,44 @@ const Footer = () => {
         <div className="relative z-10 container mx-auto px-6 lg:px-8 py-16">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
             
-            {/* Brand section - more uniform */}
+            {/* Brand section */}
             <div className="lg:col-span-2">
               <div className="bg-white/50 backdrop-blur-xl rounded-xl p-6 border border-white/30 shadow-md h-full">
                 <h2 className="text-2xl font-bold bg-gradient-to-r from-gray-800 to-gray-600 bg-clip-text text-transparent mb-3">
-                  Hotel Juan María
+                  {contactInfo?.hotel?.name || siteSettings?.site.name || 'Hotel Juan María'}
                 </h2>
-                <p className="text-lg text-gray-700 font-medium mb-4">Donde el lujo se encuentra con la comodidad</p>
+                <p className="text-lg text-gray-700 font-medium mb-4">
+                  {siteSettings?.site.tagline || 'Donde el lujo se encuentra con la comodidad'}
+                </p>
                 <p className="font-sans font-light text-gray-600 leading-relaxed mb-6">
-                  Creamos experiencias memorables que superan las expectativas, combinando hospitalidad auténtica 
-                  con instalaciones de clase mundial en el corazón de Tuluá.
+                  {siteSettings?.site.description || 'Creamos experiencias memorables que superan las expectativas, combinando hospitalidad auténtica con instalaciones de clase mundial.'}
                 </p>
                 
-                {/* Social media */}
-                <div className="flex space-x-3">
-                  {socialLinks.map((social, index) => (
-                    <Link
-                      key={social.label}
-                      href={social.href}
-                      className="p-2.5 bg-white/60 backdrop-blur-sm rounded-lg border border-gray-200/60 hover:border-gray-300 transition-all duration-300 hover:scale-105"
-                    >
-                      <social.icon className="w-4 h-4 text-gray-600 hover:text-gray-900 transition-colors duration-300" />
-                    </Link>
-                  ))}
-                </div>
+                {/* Social media - Only show if we have social links */}
+                {socialLinks.length > 0 && (
+                  <div className="flex space-x-3">
+                    {socialLinks.map((social, index) => (
+                      <Link
+                        key={social.label}
+                        href={social.href}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="p-2.5 bg-white/60 backdrop-blur-sm rounded-lg border border-gray-200/60 hover:border-gray-300 transition-all duration-300 hover:scale-105"
+                      >
+                        <social.icon className="w-4 h-4 text-gray-600 hover:text-gray-900 transition-colors duration-300" />
+                      </Link>
+                    ))}
+                    {/* Phone as social link if available */}
+                    {contactInfo?.phone.main && (
+                      <Link
+                        href={`tel:${contactInfo.phone.main}`}
+                        className="p-2.5 bg-white/60 backdrop-blur-sm rounded-lg border border-gray-200/60 hover:border-gray-300 transition-all duration-300 hover:scale-105"
+                      >
+                        <Phone className="w-4 h-4 text-gray-600 hover:text-gray-900 transition-colors duration-300" />
+                      </Link>
+                    )}
+                  </div>
+                )}
               </div>
             </div>
 
@@ -108,7 +217,7 @@ const Footer = () => {
               <div className="bg-white/50 backdrop-blur-xl rounded-xl p-6 border border-white/30 shadow-md">
                 <h3 className="text-lg font-semibold text-gray-800 mb-4">Servicios</h3>
                 <ul className="space-y-2">
-                  {usefulLinks.slice(0, 4).map((link) => (
+                  {usefulLinks.map((link) => (
                     <li key={link.name}>
                       <Link 
                         href={link.href}
@@ -121,28 +230,37 @@ const Footer = () => {
                 </ul>
               </div>
 
-              {/* Contact info */}
-              <div className="bg-white/50 backdrop-blur-xl rounded-xl p-6 border border-white/30 shadow-md">
-                <h3 className="text-lg font-semibold text-gray-800 mb-4">Contacto</h3>
-                <div className="space-y-3">
-                  <div className="flex items-center text-sm text-gray-600">
-                    <Mail className="w-4 h-4 mr-2 flex-shrink-0" />
-                    <span className="break-all">info@hoteljuanmaria.com</span>
-                  </div>
-                  <div className="flex items-center text-sm text-gray-600">
-                    <Phone className="w-4 h-4 mr-2 flex-shrink-0" />
-                    <span>+57 2 555-0123</span>
-                  </div>
-                  <div className="flex items-start text-sm text-gray-600">
-                    <MapPin className="w-4 h-4 mr-2 mt-0.5 flex-shrink-0" />
-                    <span>
-                      Carrera 15 #85-32<br />
-                      Zona Rosa, Tuluá<br />
-                      Valle del Cauca
-                    </span>
+              {/* Contact info - Only show if data is available */}
+              {contactInfo && (
+                <div className="bg-white/50 backdrop-blur-xl rounded-xl p-6 border border-white/30 shadow-md">
+                  <h3 className="text-lg font-semibold text-gray-800 mb-4">Contacto</h3>
+                  <div className="space-y-3">
+                    {contactInfo.email.reservations && (
+                      <div className="flex items-center text-sm text-gray-600">
+                        <Mail className="w-4 h-4 mr-2 flex-shrink-0" />
+                        <span className="break-all">{contactInfo.email.reservations}</span>
+                      </div>
+                    )}
+                    {contactInfo.phone.main && (
+                      <div className="flex items-center text-sm text-gray-600">
+                        <Phone className="w-4 h-4 mr-2 flex-shrink-0" />
+                        <span>{contactInfo.phone.main}</span>
+                      </div>
+                    )}
+                    {contactInfo.hotel.address && (
+                      <div className="flex items-start text-sm text-gray-600">
+                        <MapPin className="w-4 h-4 mr-2 mt-0.5 flex-shrink-0" />
+                        <span>
+                          {contactInfo.hotel.address.street}<br />
+                          {contactInfo.hotel.address.neighborhood && `${contactInfo.hotel.address.neighborhood}, `}
+                          {contactInfo.hotel.address.city}<br />
+                          {contactInfo.hotel.address.state}
+                        </span>
+                      </div>
+                    )}
                   </div>
                 </div>
-              </div>
+              )}
             </div>
           </div>
 
@@ -170,7 +288,7 @@ const Footer = () => {
 
           {/* Bottom bar */}
           <div className="mt-8 pt-6 border-t border-gray-200/50 flex flex-col sm:flex-row justify-between items-center text-sm text-gray-600">
-            <p>© 2025 Hotel Juan María. Todos los derechos reservados.</p>
+            <p>© 2025 {contactInfo?.hotel?.name || siteSettings?.site.name || 'Hotel Juan María'}. Todos los derechos reservados.</p>
             <div className="flex space-x-6 mt-4 sm:mt-0">
               <Link href="/privacy" className="hover:text-gray-900 transition-colors duration-300">Privacidad</Link>
               <Link href="/terms" className="hover:text-gray-900 transition-colors duration-300">Términos y condiciones</Link>
