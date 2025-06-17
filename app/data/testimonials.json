@@ -1,75 +1,135 @@
 {
-    "testimonials": [
-      {
-        "id": 1,
-        "name": "María González",
-        "location": "Bogotá, Colombia",
-        "rating": 5,
-        "comment": "Una experiencia inolvidable. El servicio es excepcional y las instalaciones de primera clase. Definitivamente regresaré.",
-        "date": "2025-05-15",
-        "avatar": "/images/avatars/maria.jpg",
-        "featured": true
-      },
-      {
-        "id": 2,
-        "name": "Carlos Rodríguez",
-        "location": "Medellín, Colombia",
-        "rating": 5,
-        "comment": "El hotel superó todas mis expectativas. La atención al detalle y el personal tan amable hicieron de mi estadía algo especial.",
-        "date": "2025-05-08",
-        "avatar": "/images/avatars/carlos.jpg",
-        "featured": true
-      },
-      {
-        "id": 3,
-        "name": "Ana Martínez",
-        "location": "Cali, Colombia",
-        "rating": 5,
-        "comment": "Perfecto para una escapada romántica. La suite tenía una vista espectacular y el spa fue relajante. Muy recomendado.",
-        "date": "2025-04-28",
-        "avatar": "/images/avatars/ana.jpg",
-        "featured": true
-      },
-      {
-        "id": 4,
-        "name": "Roberto Silva",
-        "location": "Barranquilla, Colombia",
-        "rating": 4,
-        "comment": "Excelente ubicación y servicios. El desayuno buffet tenía mucha variedad y todo estaba delicioso.",
-        "date": "2025-04-20",
-        "avatar": "/images/avatars/roberto.jpg",
-        "featured": false
-      },
-      {
-        "id": 5,
-        "name": "Patricia López",
-        "location": "Cartagena, Colombia",
-        "rating": 5,
-        "comment": "El personal fue extremadamente atento y profesional. Las instalaciones están impecables y la comida del restaurante es exquisita.",
-        "date": "2025-04-12",
-        "avatar": "/images/avatars/patricia.jpg",
-        "featured": false
-      },
-      {
-        "id": 6,
-        "name": "Diego Hernández",
-        "location": "Bucaramanga, Colombia",
-        "rating": 5,
-        "comment": "Una experiencia de lujo desde el check-in hasta el check-out. La piscina infinity es simplemente espectacular.",
-        "date": "2025-04-05",
-        "avatar": "/images/avatars/diego.jpg",
-        "featured": true
+  "testimonials": [
+    {
+      "id": 1,
+      "name": "LauraMiguel Chavez",
+      "location": "Colombia",
+      "rating": 5,
+      "comment": "Tuvimos una experiencia maravillosa en el Hotel Juan María. Desde el primer momento nos sentimos como en casa. José y otro joven en recepción fueron sumamente amables, atentos y profesionales; siempre dispuestos a ayudar con una sonrisa. El señor Néstor también se destacó por su calidad y disposición, haciendo todo lo posible para que nuestra estadía fuera perfecta. Las chicas de la cocina fueron encantadoras, la comida deliciosa y el servicio impecable. Cada detalle estuvo cuidado. Hicieron un trabajo excepcional. Sin duda, volveremos. ¡Gracias por todo!",
+      "date": "2025-05-24",
+      "avatar": "/images/avatars/lauramiguel.jpg",
+      "featured": true,
+      "platform": "Google",
+      "scores": {
+        "habitaciones": 5.0,
+        "servicio": 5.0,
+        "ubicacion": 5.0
       }
-    ],
-    "stats": {
-      "totalReviews": 128,
-      "averageRating": 4.8,
-      "ratingDistribution": {
-        "5": 89,
-        "4": 32,
-        "3": 6,
-        "2": 1,
-        "1": 0
+    },
+    {
+      "id": 2,
+      "name": "JHON",
+      "location": "Colombia",
+      "rating": 4,
+      "comment": "Sus instalaciones son amplias, modernas y muy bonitas, de igual manera las habitaciones, la higiene y el servicio son excelentes. El hotel es perfecto para vacaciones familiares.",
+      "date": "2025-02-17",
+      "avatar": "/images/avatars/jhon.jpg",
+      "featured": true,
+      "platform": "Google",
+      "scores": {
+        "habitaciones": 4.0,
+        "servicio": 4.0,
+        "ubicacion": 4.0
+      },
+      "travelType": "Vacaciones • Familiar",
+      "highlights": ["Tranquilo"]
+    },
+    {
+      "id": 3,
+      "name": "Jose Sevillano",
+      "location": "Colombia",
+      "rating": 5,
+      "comment": "La mejor ubicación que podrían tener en la ciudad. Muy central con un parque just al lado, con excelente servicio, el precio es adecuado, y las zonas comunes con espaciosas. Incluye desayuno a un buen costo, el WiFi es estable para trabajo, y las habitaciones tienen un buen espacio para trabajo. Lo puedo recomendar tranquilamente.",
+      "date": "2024-06-17",
+      "avatar": "/images/avatars/jose.jpg",
+      "featured": true,
+      "platform": "Google",
+      "scores": {
+        "habitaciones": 5.0,
+        "servicio": 5.0,
+        "ubicacion": 5.0
+      },
+      "travelType": "Por negocios • En pareja",
+      "highlights": ["Tranquilo", "Buen precio"]
+    },
+    {
+      "id": 4,
+      "name": "473marcelap",
+      "location": "Colombia",
+      "rating": 5,
+      "comment": "Excelente hotel! Muy bonito, habitaciones súper amplias, limpias, y todo muy moderno. Agua caliente, refrigerador, aire acondicionado, y televisión. El ambiente y la energía es súper! Los desayunos muy ricos!",
+      "date": "2023-06-17",
+      "avatar": "/images/avatars/marcela.jpg",
+      "featured": true,
+      "platform": "TripAdvisor",
+      "scores": {
+        "habitaciones": 5.0,
+        "servicio": 5.0,
+        "ubicacion": 5.0
+      },
+      "highlights": ["Tranquilo"]
+    },
+    {
+      "id": 5,
+      "name": "viviano675",
+      "location": "Colombia",
+      "rating": 5,
+      "comment": "El hotel está renovado, muy limpio, las almohadas mullidas, la atención del personal es excelente, siempre dispuestos a ayudar. Muy bien ubicado. El internet es bueno para trabajar, tiene escritorio, te suben el desayuno. Lo recomiendo tanto para descansar como para trabajar.",
+      "date": "2024-06-17",
+      "avatar": "/images/avatars/viviano.jpg",
+      "featured": true,
+      "platform": "TripAdvisor",
+      "scores": {
+        "habitaciones": 5.0,
+        "servicio": 5.0,
+        "ubicacion": 5.0
+      },
+      "highlights": ["Tranquilo", "Perfecto para trabajo"]
+    },
+    {
+      "id": 6,
+      "name": "María González",
+      "location": "Bogotá, Colombia",
+      "rating": 5,
+      "comment": "Una experiencia inolvidable. El servicio es excepcional y las instalaciones de primera clase. La atención personalizada del personal hace la diferencia.",
+      "date": "2025-05-15",
+      "avatar": "/images/avatars/maria.jpg",
+      "featured": false,
+      "platform": "Google",
+      "scores": {
+        "habitaciones": 5.0,
+        "servicio": 5.0,
+        "ubicacion": 5.0
       }
     }
-  }
+  ],
+  "stats": {
+    "totalReviews": 152,
+    "averageRating": 4.8,
+    "ratingDistribution": {
+      "5": 128,
+      "4": 18,
+      "3": 4,
+      "2": 2,
+      "1": 0
+    },
+    "platforms": {
+      "Google": 98,
+      "TripAdvisor": 54
+    },
+    "averageScores": {
+      "habitaciones": 4.8,
+      "servicio": 4.9,
+      "ubicacion": 4.8
+    }
+  },
+  "highlights": [
+    "Excelente ubicación central",
+    "Personal amable y profesional",
+    "Habitaciones amplias y modernas",
+    "Perfecto para trabajo y descanso",
+    "WiFi estable",
+    "Instalaciones renovadas"
+  ],
+  "image": "/Fachada-nocturna2.jpg"
+}

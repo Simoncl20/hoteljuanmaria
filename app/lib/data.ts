@@ -404,6 +404,18 @@ export async function getTestimonialStats() {
   return testimonialsData.stats;
 }
 
+// Nueva función para agregar después de getTestimonialStats()
+export async function getTestimonialHighlights(): Promise<string[]> {
+  await new Promise(resolve => setTimeout(resolve, 50));
+  return testimonialsData.highlights;
+}
+
+// Nueva función para agregar después de getTestimonialHighlights()
+export async function getTestimonialsBackgroundImage(): Promise<string> {
+  await new Promise(resolve => setTimeout(resolve, 50));
+  return testimonialsData.image;
+}
+
 // Funciones para obtener información de contacto
 export async function getContactInfo() {
   await new Promise(resolve => setTimeout(resolve, 50));
